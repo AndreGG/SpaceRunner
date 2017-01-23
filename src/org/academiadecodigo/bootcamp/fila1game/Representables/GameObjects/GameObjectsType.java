@@ -6,8 +6,4 @@ package org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects;
 public enum GameObjectsType {
     OBSTACLE1,
     PICKUP;
-
-
-
-
 }

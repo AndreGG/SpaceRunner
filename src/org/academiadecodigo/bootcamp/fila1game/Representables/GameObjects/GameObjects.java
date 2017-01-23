@@ -11,6 +11,7 @@ public abstract class GameObjects {
     private MovableRepresentable object;
     private int posX;
     private int posY;
+    private int speed;
 
     public MovableRepresentable getObject() {
         return object;

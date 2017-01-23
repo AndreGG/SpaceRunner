@@ -13,4 +13,9 @@ public class Obstacle1 extends GameObjects {
     public Obstacle1(MovableRepresentable object) {
         super(object);
     }
+
+    public void move() {
+
+    }
+
 }

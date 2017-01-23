@@ -12,4 +12,9 @@ public class Pickup extends GameObjects{
     public Pickup(MovableRepresentable object) {
         super(object);
     }
+
+    public void move() {
+
+    }
+
 }
