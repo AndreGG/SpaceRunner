@@ -13,27 +13,24 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
         this.pickup = new Rectangle(startX,startY,100,60);
     }
 
-
-
-
     @Override
     public int getX() {
-        return 0;
+        return pickup.getX();
     }
 
     @Override
     public int getY() {
-        return 0;
+        return pickup.getY();
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return pickup.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return pickup.getHeight();
     }
 
     @Override

@@ -8,14 +8,15 @@ import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentab
  */
 public class Obstacle1 extends GameObjects {
 
-
+    private MovableRepresentable sprite;
 
     public Obstacle1(MovableRepresentable object) {
         super(object);
+        this.sprite = object;
     }
 
     public void move() {
-
+        sprite.move();
     }
 
 }

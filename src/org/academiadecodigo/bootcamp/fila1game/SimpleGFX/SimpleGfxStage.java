@@ -19,9 +19,6 @@ public class SimpleGfxStage implements Representable {
         stage.setColor(Color.WHITE);
         stage.draw();
 
-        Picture background = new Picture(10, 10, "backgroundTest.gif");
-        background.draw();
-
         borders[0] = new Rectangle(stage.getX(),stage.getY(),80,stage.getHeight());
         borders[0].setColor(Color.BLACK);
         borders[0].fill();
@@ -34,21 +31,21 @@ public class SimpleGfxStage implements Representable {
 
     @Override
     public int getX() {
-        return 0;
+        return stage.getX();
     }
 
     @Override
     public int getY() {
-        return 0;
+        return stage.getY();
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return stage.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return stage.getHeight();
     }
 }

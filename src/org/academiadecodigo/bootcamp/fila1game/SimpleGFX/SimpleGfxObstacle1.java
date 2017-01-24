@@ -9,35 +9,45 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     private Rectangle obstacle1;
+    private double startPos;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Rectangle(startX,startY,100,60);
+        obstacle1 = new Rectangle(startX,startY,80,60);
         obstacle1.setColor(Color.BLUE);
         obstacle1.fill();
+        startPos = startX;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return obstacle1.getX();
     }
 
     @Override
     public int getY() {
-        return 0;
+        return obstacle1.getY();
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return obstacle1.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return obstacle1.getHeight();
     }
 
     @Override
     public void move() {
+
+        if (obstacle1.getX() > 11) {
+            obstacle1.translate(-5, 0);
+        }
+
+        if (obstacle1.getX() <= 11) {
+            obstacle1.translate(startPos, 0);
+        }
 
     }
 }
