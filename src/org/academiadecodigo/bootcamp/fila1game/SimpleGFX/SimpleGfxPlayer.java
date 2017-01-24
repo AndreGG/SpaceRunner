@@ -16,6 +16,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
     private int fallSpeed = 20;
+    private int jumpCounter = 2;
 
 
     public SimpleGfxPlayer(int startX, int startY) {
@@ -71,13 +72,15 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     @Override
     public void move() {
-        int count = 0;
 
-        if (jumping && sprite.getY() > 250) {
+        if (jumping && sprite.getY() > 250 && jumpCounter > 0) {
             sprite.translate(0, -20);
         }
         if (!jumping && sprite.getY() < 500) {
             sprite.translate(0, fallSpeed);
+        }
+        if (sprite.getY() >= 500) {
+            jumpCounter = 2;
         }
 
     }

@@ -13,14 +13,23 @@ public abstract class GameObjects {
     private int posY;
     private int speed;
 
+
+
+    public GameObjects (MovableRepresentable object) {
+        this.object = object;
+        posX = object.getX();
+        posY = object.getY();
+    }
+
     public MovableRepresentable getObject() {
         return object;
     }
 
-    public GameObjects (MovableRepresentable object) {
-        this.object = object;
+    public int getPosX() {
+        return posX;
     }
 
-
-
+    public int getPosY() {
+        return posY;
+    }
 }
