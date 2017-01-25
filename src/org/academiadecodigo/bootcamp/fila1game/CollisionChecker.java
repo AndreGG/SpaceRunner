@@ -1,4 +1,3 @@
-
 package org.academiadecodigo.bootcamp.fila1game;
 
 import com.sun.javafx.PlatformUtil;
@@ -40,6 +39,5 @@ public class CollisionChecker {
     public int getObjectCenterX() {
         return ((obstacle1.getObject().getX() + obstacle1.getObject().getWidth()) / 2);
     }
-
 
 }
