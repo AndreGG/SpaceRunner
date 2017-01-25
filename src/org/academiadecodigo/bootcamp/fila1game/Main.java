@@ -10,8 +10,6 @@ public class Main {
 
         Game game1 = new Game();
 
-        int count = 0;
-
         while (true) {
             Thread.sleep(17);
                 game1.start();

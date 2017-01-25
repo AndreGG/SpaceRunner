@@ -72,18 +72,17 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private void refreshJumps() {
+
         if (hitbox.getY() >= 485) {
             count = 0;
             jumpCounter = 2;
             jumpArc = 0;
             jumpStart = -15;
         }
+
     }
 
     private void animateSprite() {
-
-        System.out.println("animation count" + animationCount);
-        System.out.println("sprite getY" + hitbox.getY());
 
         if (hitbox.getY() < 485) {
             for (Picture sprite: spriteSheet) {
@@ -93,6 +92,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         }
 
         if (hitbox.getY() >= 485){
+            spriteSheet[3].delete();
+
             if (animationCount < 6) {
                 spriteSheet[0].delete();
                 spriteSheet[1].draw();
@@ -105,6 +106,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             } else if (animationCount < 24) {
                 spriteSheet[1].delete();
                 spriteSheet[0].draw();
+            } else if (animationCount > 24) {
                 animationCount = 0;
             }
         }
@@ -134,19 +136,21 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     @Override
     public void move() {
 
-
         animateSprite();
         refreshJumps();
 
-        if (count < 4 && jumping && jumpCounter > 0) {
+        //System.out.println(count + " count");
+        //System.out.println(jumpCounter + " JC");
 
-            for (Picture sprite: spriteSheet) {
-                sprite.translate(0, jumpStart);
-            }
+        if (count < 10 && jumping && jumpCounter > 0) {
 
             hitbox.translate(0,jumpStart);
-            count++;
+            for (Picture word: spriteSheet) {
+                word.translate(0, jumpStart);
+            }
+
             jumpStart++;
+            count++;
 
             if (jumpCounter > 0) {
                 count = 0;
@@ -155,13 +159,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         } else if (count >= 0 && hitbox.getY() < 500) {
 
-            jumpArc++;
-
-            for (Picture sprite: spriteSheet) {
-                sprite.translate(0, jumpArc);
+            hitbox.translate(0, jumpArc);
+            for (Picture word: spriteSheet) {
+                word.translate(0, jumpArc);
             }
 
-            hitbox.translate(0, jumpArc);
+            jumpArc++;
 
         }
     }
@@ -172,6 +175,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             jumping = true;
             jumpCounter--;
+            System.out.println(jumpCounter);
         }
 
     }
