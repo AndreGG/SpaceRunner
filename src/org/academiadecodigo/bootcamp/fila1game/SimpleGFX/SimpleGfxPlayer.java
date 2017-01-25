@@ -1,7 +1,9 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Movable;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.graphics.Shape;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -13,8 +15,8 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
  */
 public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHandler {
 
-    private Rectangle sprite;
-    private Picture[] spriteRun;
+    private Rectangle hitbox;
+    private Picture[] sprites;
     private Picture jump;
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
@@ -27,17 +29,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
 
     public SimpleGfxPlayer(int startX, int startY) {
-        sprite = new Rectangle(startX + 60, startY,64,64);
-        sprite.setColor(Color.RED);
+        sprites = new Picture[4];
+        hitbox = new Rectangle(startX + 60, startY,64,64);
+        sprites[0] = new Picture(hitbox.getX(), hitbox.getY(), "walk01.png");
+        sprites[1] = new Picture(hitbox.getX(), hitbox.getY(), "walk02.png");
+        sprites[2] = new Picture(hitbox.getX(), hitbox.getY(), "walk03.png");
+        sprites[3] = new Picture(hitbox.getX(), hitbox.getY(), "jump.png");
+
+        for(Picture sprite: sprites) {
+            sprite.delete();
+        }
+
         keyboardInit();
-
-        spriteRun = new Picture[] { new Picture(sprite.getX(), sprite.getY(), "walk01.png"), new Picture(sprite.getX(), sprite.getY(), "walk02.png"), new Picture(sprite.getX(), sprite.getY(), "walk03.png" ) };
-        jump = new Picture(sprite.getX(), sprite.getY(), "jump.png");
-
-        spriteRun[0].delete();
-        spriteRun[1].delete();
-        spriteRun[2].delete();
-        jump.delete();
     }
 
     public void keyboardInit() {
@@ -68,7 +71,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private void refreshJumps() {
-        if (sprite.getY() >= 485) {
+        if (hitbox.getY() >= 485) {
             count = 0;
             jumpCounter = 2;
             jumpArc = 0;
@@ -79,29 +82,29 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void animateSprite() {
 
         System.out.println("animation count" + animationCount);
-        System.out.println("sprite getY" + sprite.getY());
+        System.out.println("sprite getY" + hitbox.getY());
 
-        if (sprite.getY() < 485) {
-            for (Picture sprite: spriteRun) {
+        if (hitbox.getY() < 485) {
+            for (Picture sprite: sprites) {
                 sprite.delete();
-                jump.draw();
             }
+            sprites[3].draw();
         }
 
-        if (sprite.getY() >= 485){
-            jump.delete();
+        if (hitbox.getY() >= 485){
+            sprites[3].delete();
             if (animationCount < 6) {
-                spriteRun[0].delete();
-                spriteRun[1].draw();
+                sprites[0].delete();
+                sprites[1].draw();
             } else if (animationCount < 12) {
-                spriteRun[1].delete();
-                spriteRun[2].draw();
+                sprites[1].delete();
+                sprites[2].draw();
             } else if (animationCount < 18) {
-                spriteRun[2].delete();
-                spriteRun[1].draw();
+                sprites[2].delete();
+                sprites[1].draw();
             } else if (animationCount < 24) {
-                spriteRun[1].delete();
-                spriteRun[0].draw();
+                sprites[1].delete();
+                sprites[0].draw();
             } else if (animationCount > 24) {
                 animationCount = 0;
             }
@@ -111,22 +114,22 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     @Override
     public int getX() {
-        return sprite.getX();
+        return hitbox.getX();
     }
 
     @Override
     public int getY() {
-        return sprite.getY();
+        return hitbox.getY();
     }
 
     @Override
     public int getWidth() {
-        return sprite.getWidth();
+        return hitbox.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return sprite.getHeight();
+        return hitbox.getHeight();
     }
 
     @Override
@@ -136,43 +139,30 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         refreshJumps();
 
         if (count < 4 && jumping && jumpCounter > 0) {
-            sprite.translate(0,jumpStart);
-            jump.translate(0,jumpStart);
-            for (Picture word: spriteRun) {
+
+            hitbox.translate(0,jumpStart);
+            for (Picture word: sprites) {
                 word.translate(0, jumpStart);
             }
 
             count++;
             jumpStart++;
+
             if (jumpCounter > 0) {
                 count = 0;
                 jumpStart = -15;
             }
 
-            System.out.println(sprite.getY());
-
-        } else if (count >= 0 && sprite.getY() < 500) {
+        } else if (count >= 0 && hitbox.getY() < 500) {
 
             jumpArc++;
 
-            sprite.translate(0, jumpArc);
-            jump.translate(0,jumpArc);
-            for (Picture word: spriteRun) {
+            hitbox.translate(0, jumpArc);
+            for (Picture word: sprites) {
                 word.translate(0, jumpArc);
             }
 
         }
-
-        /*if (jumping && sprite.getY() > 250 && jumpCounter > 0) {
-            sprite.translate(0, -20);
-        }
-        if (!jumping && sprite.getY() < 500) {
-            sprite.translate(0, fallSpeed);
-        }
-        if (sprite.getY() >= 500) {
-            jumpCounter = 2;
-        }*/
-
     }
 
     @Override
