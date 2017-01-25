@@ -24,6 +24,8 @@ public class Game {
     private Player player;
     private Obstacle1 obstacle1;
 
+    // TODO private ActiveBlock;
+
     public Game() {
 
         player = new Player(new SimpleGfxPlayer(70,500));
@@ -43,6 +45,7 @@ public class Game {
 
     }
 
+    //TODO reached end;
 
 
 }
