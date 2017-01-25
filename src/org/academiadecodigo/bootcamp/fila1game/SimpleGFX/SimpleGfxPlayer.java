@@ -17,6 +17,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private Keyboard keyboard = new Keyboard(this);
     private int fallSpeed = 20;
     private int jumpCounter = 2;
+    private int count;
+    private int jumpArc = 0;
 
 
     public SimpleGfxPlayer(int startX, int startY) {
@@ -50,6 +52,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         keyboard.addEventListener(jumpSpeed);
     }
 
+    public boolean jumpAvailable() {
+        return true;
+    }
+
+    private void refreshJumps() {
+        if (sprite.getY() >= 485) {
+            count = 0;
+            jumpCounter = 2;
+            jumpArc = 0;
+        }
+    }
+
     @Override
     public int getX() {
         return sprite.getX();
@@ -73,7 +87,26 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     @Override
     public void move() {
 
-        if (jumping && sprite.getY() > 250 && jumpCounter > 0) {
+        refreshJumps();
+
+        if (count < 10 && jumping && jumpCounter > 0) {
+            sprite.translate(0,-15);
+            count++;
+            if (jumpCounter > 0) {
+                count = 0;
+            }
+
+            System.out.println(sprite.getY());
+
+        } else if (count >= 0 && sprite.getY() < 500) {
+
+            jumpArc++;
+
+            sprite.translate(0, jumpArc);
+
+        }
+
+        /*if (jumping && sprite.getY() > 250 && jumpCounter > 0) {
             sprite.translate(0, -20);
         }
         if (!jumping && sprite.getY() < 500) {
@@ -81,7 +114,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         }
         if (sprite.getY() >= 500) {
             jumpCounter = 2;
-        }
+        }*/
 
     }
 
@@ -90,9 +123,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             jumping = true;
-        }
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN) {
-            fallSpeed = fallSpeed * 2;
+            jumpCounter--;
         }
 
     }
@@ -102,9 +133,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
-        }
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN) {
-            fallSpeed = 20;
         }
 
 

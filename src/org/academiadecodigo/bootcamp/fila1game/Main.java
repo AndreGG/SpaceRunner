@@ -14,12 +14,7 @@ public class Main {
 
         while (true) {
             Thread.sleep(20);
-
-            if (count < 550) {
                 game1.start();
-            }
-
-            count++;
         }
 
     }
