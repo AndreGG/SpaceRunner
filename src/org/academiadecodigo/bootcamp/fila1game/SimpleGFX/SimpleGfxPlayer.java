@@ -15,6 +15,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private Rectangle sprite;
     private Picture[] spriteRun;
+    private Picture jump;
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
     private int fallSpeed = 20;
@@ -31,10 +32,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         keyboardInit();
 
         spriteRun = new Picture[] { new Picture(sprite.getX(), sprite.getY(), "walk01.png"), new Picture(sprite.getX(), sprite.getY(), "walk02.png"), new Picture(sprite.getX(), sprite.getY(), "walk03.png" ) };
+        jump = new Picture(sprite.getX(), sprite.getY(), "jump.png");
 
         spriteRun[0].delete();
         spriteRun[1].delete();
         spriteRun[2].delete();
+        jump.delete();
     }
 
     public void keyboardInit() {
@@ -75,9 +78,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
-        if (jumping) {
+        System.out.println("animation count" + animationCount);
+        System.out.println("sprite getY" + sprite.getY());
 
-        } else {
+        if (sprite.getY() < 485) {
+            for (Picture sprite: spriteRun) {
+                sprite.delete();
+                jump.draw();
+            }
+        }
+
+        if (sprite.getY() >= 485){
+            jump.delete();
             if (animationCount < 6) {
                 spriteRun[0].delete();
                 spriteRun[1].draw();
@@ -90,15 +102,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             } else if (animationCount < 24) {
                 spriteRun[1].delete();
                 spriteRun[0].draw();
-            } else if (animationCount < 30) {
+            } else if (animationCount > 24) {
                 animationCount = 0;
             }
         }
-
         animationCount++;
-
-
-
     }
 
     @Override
@@ -129,9 +137,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (count < 4 && jumping && jumpCounter > 0) {
             sprite.translate(0,jumpStart);
+            jump.translate(0,jumpStart);
             for (Picture word: spriteRun) {
                 word.translate(0, jumpStart);
             }
+
             count++;
             jumpStart++;
             if (jumpCounter > 0) {
@@ -146,6 +156,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumpArc++;
 
             sprite.translate(0, jumpArc);
+            jump.translate(0,jumpArc);
             for (Picture word: spriteRun) {
                 word.translate(0, jumpArc);
             }
