@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
+import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -22,6 +23,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpArc = 0;
     private int jumpStart = -15;
     private int animationCount = 0;
+
 
 
     public SimpleGfxPlayer(int startX, int startY) {
@@ -146,7 +148,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
                 jumpStart = -15;
             }
 
-            System.out.println(sprite.getY());
+//            System.out.println(sprite.getY());
 
         } else if (count >= 0 && sprite.getY() < 500) {
 
@@ -176,8 +178,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
         }
-
-
-
     }
+
+
 }
