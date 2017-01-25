@@ -42,7 +42,7 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     public void move() {
 
         if (obstacle1.getX() > 11) {
-            obstacle1.translate(-10, 0);
+            obstacle1.translate(-20, 0);
         }
 
         if (obstacle1.getX() <= 11) {

@@ -13,7 +13,7 @@ public class Main {
         int count = 0;
 
         while (true) {
-            Thread.sleep(20);
+            Thread.sleep(17);
                 game1.start();
         }
 
