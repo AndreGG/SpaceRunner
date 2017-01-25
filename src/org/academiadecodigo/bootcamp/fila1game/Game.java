@@ -24,11 +24,17 @@ public class Game {
     private Player player;
     private Obstacle1 obstacle1;
 
+    // TODO private ActiveBlock;
+
     public Game() {
 
         player = new Player(new SimpleGfxPlayer(70,500));
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934,500));
         stage = new Stage(new SimpleGfxStage());
+
+        CollisionChecker checker = new CollisionChecker(obstacle1);
+
+        player.setChecker(checker);
 
     }
 
@@ -39,6 +45,7 @@ public class Game {
 
     }
 
+    //TODO reached end;
 
 
 }
