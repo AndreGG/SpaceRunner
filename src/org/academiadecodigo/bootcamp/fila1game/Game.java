@@ -30,6 +30,10 @@ public class Game {
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934,500));
         stage = new Stage(new SimpleGfxStage());
 
+        CollisionChecker checker = new CollisionChecker(obstacle1);
+
+        player.setChecker(checker);
+
     }
 
     public void start() {

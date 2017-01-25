@@ -12,6 +12,8 @@ public abstract class GameObjects {
     private int posX;
     private int posY;
     private int speed;
+    private int width;
+    private int height;
 
 
 
@@ -19,6 +21,9 @@ public abstract class GameObjects {
         this.object = object;
         posX = object.getX();
         posY = object.getY();
+        width = object.getWidth();
+        height = object.getHeight();
+
     }
 
     public MovableRepresentable getObject() {
@@ -32,4 +37,13 @@ public abstract class GameObjects {
     public int getPosY() {
         return posY;
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
 }
