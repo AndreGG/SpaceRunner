@@ -16,7 +16,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private Picture[] spriteSheet;
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
-    private int jumpCounter = 2;
+    private int jumpCounter = 3;
     private int count;
     private int jumpArc = 0;
     private int jumpStart = -15;
@@ -75,7 +75,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (hitbox.getY() >= 485) {
             count = 0;
-            jumpCounter = 2;
+            jumpCounter = 3;
             jumpArc = 0;
             jumpStart = -15;
         }
@@ -145,6 +145,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (count < 10 && jumping && jumpCounter > 0) {
 
             hitbox.translate(0,jumpStart);
+
             for (Picture word: spriteSheet) {
                 word.translate(0, jumpStart);
             }
@@ -159,12 +160,15 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         } else if (count >= 0 && hitbox.getY() < 500) {
 
+            jumpArc++;
+
             hitbox.translate(0, jumpArc);
+
             for (Picture word: spriteSheet) {
                 word.translate(0, jumpArc);
             }
 
-            jumpArc++;
+
 
         }
     }
