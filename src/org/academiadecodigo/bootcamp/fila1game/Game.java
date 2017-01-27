@@ -75,11 +75,11 @@ public class Game implements KeyboardHandler {
             music();
         }
 
-        //TODO
 
-//        obstacle1.move();
-//        stage.move();
-//        player.move();
+
+       obstacle1.move();
+       stage.move();
+       player.move();
 
 
     }

@@ -9,7 +9,6 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,6 +48,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         }
 
         keyboardInit();
+
     }
 
     public void keyboardInit() {
@@ -72,6 +72,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         jumpSpeed.setKey(KeyboardEvent.KEY_DOWN);
         jumpSpeed.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
         keyboard.addEventListener(jumpSpeed);
+
     }
 
     private void refreshJumps() {
@@ -82,6 +83,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumpArc = 0;
             jumpStart = -15;
         }
+
     }
 
     public void show() {
@@ -115,10 +117,10 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             } else if (animationCount > 24) {
                 animationCount = 0;
             }
+
         }
         animationCount++;
     }
-
 
     @Override
     public void move() {
@@ -144,8 +146,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             refreshJumps();
 
         } else {
+
             jump();
+
         }
+
     }
 
     private void jump() {
@@ -180,6 +185,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             for (Picture word : spriteSheet) {
                 word.translate(0, jumpArc);
             }
+
         }
     }
 
@@ -188,6 +194,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+
             jumping = true;
             jumpCounter--;
 
@@ -204,8 +211,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
-
         }
+
     }
 
     public void hide() {
