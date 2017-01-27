@@ -7,4 +7,5 @@ public interface MovableRepresentable extends Representable {
 
     void move();
 
+
 }

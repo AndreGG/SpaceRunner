@@ -5,5 +5,4 @@ package org.academiadecodigo.bootcamp.fila1game;
  */
 public class TesterClass {
 
-
 }

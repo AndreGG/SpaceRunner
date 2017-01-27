@@ -2,6 +2,7 @@ package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 /**
  * Created by codecadet on 1/20/17.
@@ -9,18 +10,27 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     private Rectangle obstacle1;
+    private Picture pic;
     private double startPos;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Rectangle(startX,startY,80,60);
-        obstacle1.setColor(Color.BLUE);
-        obstacle1.fill();
+        obstacle1 = new Rectangle(startX,startY, 64, 64);
+//        obstacle1.setColor(Color.WHITE);
+//        obstacle1.draw();
+        pic = new Picture(startX, startY, "obstacleBox.png");
+        pic.draw();
+
         startPos = startX;
     }
 
     @Override
     public int getX() {
         return obstacle1.getX();
+    }
+
+    @Override
+    public void setY(int i) {
+
     }
 
     @Override
@@ -38,15 +48,25 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
         return obstacle1.getHeight();
     }
 
+    public void show() {
+
+    }
+
+    public void hide() {
+
+    }
+
     @Override
     public void move() {
 
         if (obstacle1.getX() > 11) {
-            obstacle1.translate(-20, 0);
+            obstacle1.translate(-5, 0);
+            pic.translate(-5, 0);
         }
 
         if (obstacle1.getX() <= 11) {
             obstacle1.translate(startPos, 0);
+            pic.translate(startPos, 0);
         }
 
     }

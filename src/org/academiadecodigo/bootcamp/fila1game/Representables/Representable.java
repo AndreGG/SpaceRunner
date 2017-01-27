@@ -9,6 +9,8 @@ public interface Representable {
 
     int getY();
 
+    void setY(int i);
+
     int getWidth();
 
     int getHeight();
@@ -16,4 +18,5 @@ public interface Representable {
     void show();
 
     void hide();
+
 }
