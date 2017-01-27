@@ -14,7 +14,7 @@ public class Player {
     private CollisionChecker checker;
     private int width;
     private int height;
-    private int life = 50;
+    private int life = 10;
 
     public MovableRepresentable getSprite() {
         return sprite;
@@ -22,24 +22,23 @@ public class Player {
 
     public Player (MovableRepresentable sprite) {
         this.sprite = sprite;
-        x = sprite.getX();
-        y = sprite.getY();
-        width = sprite.getWidth();
-        height = sprite.getHeight();
-
     }
 
     public void move() {
 
-        checker.checkCollision(this);
-        System.out.println(life);
+//        System.out.println("Dead: " + playerDead);
+//        System.out.println();
+//        System.out.println("Life: " + life);
+//        System.out.println();
 
-        if (life > 0) {
-            sprite.move();
-        }
-
-//        if (!playerDead) {
+//        if (life > 0) {
 //            sprite.move();
+//        }
+
+/*
+        if (!playerDead) {
+*/
+            sprite.move();
 //        }
     }
 
@@ -52,11 +51,11 @@ public class Player {
     }
 
     public int getX() {
-        return x;
+        return sprite.getX();
     }
 
     public int getY() {
-        return y;
+        return sprite.getY();
     }
 
     public void setChecker(CollisionChecker checker) {
@@ -64,11 +63,11 @@ public class Player {
     }
 
     public int getWidth() {
-        return width;
+        return sprite.getWidth();
     }
 
     public int getHeight() {
-        return height;
+        return sprite.getHeight();
     }
 
     public void setLife() {

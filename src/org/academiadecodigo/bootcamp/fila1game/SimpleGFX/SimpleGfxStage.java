@@ -90,6 +90,11 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
+    public void setY(int i) {
+
+    }
+
+    @Override
     public int getY() {
         return stage.getY();
     }

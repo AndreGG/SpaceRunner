@@ -19,6 +19,11 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
     }
 
     @Override
+    public void setY(int i) {
+
+    }
+
+    @Override
     public int getY() {
         return pickup.getY();
     }

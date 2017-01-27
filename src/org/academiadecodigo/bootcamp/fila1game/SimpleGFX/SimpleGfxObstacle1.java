@@ -15,12 +15,16 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     public SimpleGfxObstacle1(int startX, int startY) {
         obstacle1 = new Picture(startX,startY, "ObstacleBox.png");
         obstacle1.draw();
-        startPos = startX;
     }
 
     @Override
     public int getX() {
         return obstacle1.getX();
+    }
+
+    @Override
+    public void setY(int i) {
+
     }
 
     @Override
