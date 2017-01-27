@@ -28,20 +28,20 @@ public class Game {
 
     public Game() {
 
-        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
 
-        CollisionChecker checker = new CollisionChecker(obstacle1);
 
-        player = new Player(new SimpleGfxPlayer(70, 500, checker));
+
         stage = new Stage(new SimpleGfxStage());
-
+        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
+        CollisionChecker checker = new CollisionChecker(obstacle1);
+        player = new Player(new SimpleGfxPlayer(70, 500, checker));
 //        player.setChecker(checker);
 
     }
 
     public void start() {
-        stage.move();
         obstacle1.move();
+        stage.move();
         player.move();
 
     }

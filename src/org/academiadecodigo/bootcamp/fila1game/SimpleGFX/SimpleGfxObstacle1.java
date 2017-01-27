@@ -9,12 +9,15 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
  */
 public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
-    private Picture obstacle1;
+    private Rectangle obstacle1;
     private double startPos;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Picture(startX,startY, "ObstacleBox.png");
-        obstacle1.draw();
+        obstacle1 = new Rectangle(startX,startY, 64, 64);
+        obstacle1.setColor(Color.WHITE);
+        obstacle1.fill();
+
+        startPos = startX;
     }
 
     @Override
