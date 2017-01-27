@@ -5,7 +5,7 @@ import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 /**
  * Created by codecadet on 1/20/17.
  */
-public class Player {
+public class SimpleGfxPlayer {
 
     private MovableRepresentable sprite;
     private boolean playerDead;
@@ -20,7 +20,7 @@ public class Player {
         return sprite;
     }
 
-    public Player (MovableRepresentable sprite) {
+    public SimpleGfxPlayer(MovableRepresentable sprite) {
         this.sprite = sprite;
     }
 
