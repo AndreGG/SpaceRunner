@@ -24,12 +24,20 @@ public class Game {
     private Stage stage;
     private Player player;
     private Obstacle1 obstacle1;
-    private boolean[] gamePhases = new boolean[] { true, false, false, false };
+    private boolean loadingPhase;
+    private boolean menuPhase;
+    private boolean playPhase;
+    private boolean gameoverPhase;
     private Picture loadingScreen;
 
     // TODO private ActiveBlock;
 
     public Game() {
+
+        loadingPhase = true;
+        menuPhase = false;
+        playPhase = false;
+        gameoverPhase = false;
 
         loadingScreen = new Picture(10, 10, "loading.jpg");
         loadingScreen.draw();
