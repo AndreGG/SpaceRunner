@@ -8,9 +8,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-/**
- * Created by codecadet on 1/20/17.
- */
+
 public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHandler {
 
     private Rectangle hitbox;
@@ -118,7 +116,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
 
-
     @Override
     public void move() {
 
@@ -139,17 +136,15 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
             jumpArc = checker.distanceFromObjectOnY(this);
 
-            animate();
-
+            jump();
             refreshJumps();
 
         } else {
-
-            animate();
+            jump();
         }
     }
 
-    private void animate() {
+    private void jump() {
 
         if (count < 10 && jumping && jumpCounter > 0) {
 
@@ -171,6 +166,10 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
             jumpArc++;
 
+            if ((getY()+jumpArc) > 500){
+                jumpArc = 500 - getY();
+            }
+
             hitbox.translate(0, jumpArc);
 
             for (Picture word : spriteSheet) {
@@ -178,7 +177,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             }
         }
     }
-
 
 
     @Override
@@ -207,8 +205,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         return (checker.distanceFromObjectOnY(this) < jumpArc) && (checker.isOnXWithObject(this) == true);
     }
 
-    private boolean isOnFloor(){
-        return hitbox.getY() >= 485;
+    private boolean isOnFloor() {
+
+//        boolean b = false;
+
+//        if ((485 - hitbox.getY()) < 0){
+//            jumpArc = 0;
+//            b = true;
+//        }
+//
+//        return b;
+
+        return hitbox.getY() >= 500;
     }
 
     @Override
@@ -235,6 +243,5 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     public void setY(int i) {
         hitbox.translate(0, i);
     }
-
 
 }
