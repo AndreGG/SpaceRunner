@@ -14,17 +14,16 @@ public class SimpleGfxStage implements MovableRepresentable {
     private Rectangle[] borders = new Rectangle[2];
     Picture[] background = new Picture[6];
     Picture[] floor = new Picture[13];
-    Rectangle[] midBackGround = new Rectangle[13];
+    Picture[] midBackGround = new Picture[3];
     Picture[] highBackGround = new Picture[13];
 
     private int speed = 1;
 
-
     public SimpleGfxStage() {
 
         stage = new Rectangle(10, 10, 1024, 576);
-        stage.setColor(Color.WHITE);
-        stage.draw();
+        stage.setColor(Color.BLACK);
+        stage.fill();
 
         // CRIAR BACKGROUND1
         background[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/buildings/buildings_0.png");
@@ -39,9 +38,9 @@ public class SimpleGfxStage implements MovableRepresentable {
         }
 
         //CRIAR MIDBACKGROUND
-        midBackGround[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight()-200);
+        midBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/pedrinhas/nuvens_0.png");
         for (int i = 1; i < midBackGround.length; i++) {
-            midBackGround[i] = new Rectangle(midBackGround[i - 1].getX() + 80, stage.getY(), 80, stage.getHeight()-200);
+            midBackGround[i] = new Picture(midBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/pedrinhas/nuvens_" + i + ".png");
         }
 
         //CRIAR HIGHBACKGROUND
@@ -50,32 +49,21 @@ public class SimpleGfxStage implements MovableRepresentable {
             highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/background/background_" + i + ".png");
         }
 
-
-        //RECTANGULOS MIDBACKGROUND COM CORES ALTERNADAS TEMPORARIO
-        for (int i = 0; i < midBackGround.length; i++) {
-            if (i % 2 == 0) {
-                midBackGround[i].setColor(Color.ORANGE);
-            } else {
-                midBackGround[i].setColor(Color.YELLOW);
-            }
-        }
-        
         for (Picture backG : highBackGround) {
             backG.draw();
         }
+
         for (Picture backG : background) {
+            backG.draw();
+        }
+
+        for (Picture backG : midBackGround) {
             backG.draw();
         }
 
         for (Picture backG : floor) {
             backG.draw();
         }
-
-//        for (Rectangle backG : midBackGround) {
-//            backG.fill();
-//        }
-
-
 
         // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
         borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
@@ -145,7 +133,7 @@ public class SimpleGfxStage implements MovableRepresentable {
     private void animateMidBackground() {
         for (int i = 0; i < midBackGround.length; i++) {
             if (midBackGround[i].getX() > 11) {
-                midBackGround[i].translate(-speed*2, 0);
+                midBackGround[i].translate(-speed, 0);
             }
 
             if (midBackGround[i].getX() <= 11) {

@@ -2,19 +2,19 @@ package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 /**
  * Created by codecadet on 1/20/17.
  */
 public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
-    private Rectangle obstacle1;
+    private Picture obstacle1;
     private double startPos;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Rectangle(startX,startY,80,60);
-        obstacle1.setColor(Color.BLUE);
-        obstacle1.fill();
+        obstacle1 = new Picture(startX,startY, "ObstacleBox.png");
+        obstacle1.draw();
         startPos = startX;
     }
 
