@@ -20,16 +20,17 @@ public class SimpleGfxStage implements Representable {
         stage.setColor(Color.WHITE);
         stage.draw();
 
-        Rectangle background1 = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
-        background1.setColor(Color.RED);
-        background1.fill();
 
-        Rectangle[] background = new Rectangle[12];
-        for (int i = 0; i < background.length; i++) {
-            backCounter += 70;
-            background[i] = new Rectangle(stage.getX() + backCounter, stage.getY(), 80, stage.getHeight());
 
+        Rectangle[] background = new Rectangle[1];
+        background[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
+
+        for (int i = 1; i < background.length; i++) {
+            background[i] = new Rectangle(background[i-1].getX() + 80, stage.getY(), 80, stage.getHeight());
         }
+
+
+        //POPULAR COM CORES
         for (int i = 0; i < background.length; i++) {
             if (i % 2 == 0){
                 background[i].setColor(Color.GREEN);
@@ -42,16 +43,26 @@ public class SimpleGfxStage implements Representable {
             backG.fill();
         }
 
+        for (int i = 0; i < background.length; i++) {
+            if (background[0].getX() > 11) {
+                background[0].translate(-20, 0);
+            }
+
+            if (background[0].getX() < 20) {
+                background[0].translate(1000, 0);
+            }
+        }
+
 
 
         // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
-//        borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
-//        borders[0].setColor(Color.BLACK);
-//        borders[0].fill();
-//
-//        borders[1] = new Rectangle(stage.getWidth() - 70, stage.getY(), 80, stage.getHeight());
-//        borders[1].setColor(Color.BLACK);
-//        borders[1].fill();
+        borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
+        borders[0].setColor(Color.BLACK);
+        borders[0].fill();
+
+        borders[1] = new Rectangle(stage.getWidth() - 54, stage.getY(), 80, stage.getHeight());
+        borders[1].setColor(Color.BLACK);
+        borders[1].fill();
     }
 
     @Override
