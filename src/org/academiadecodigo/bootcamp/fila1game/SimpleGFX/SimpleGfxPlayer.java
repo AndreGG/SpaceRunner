@@ -36,11 +36,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         spriteSheet[2] = new Picture(hitbox.getX(), hitbox.getY(), "walk03.png");
         spriteSheet[3] = new Picture(hitbox.getX(), hitbox.getY(), "jump.png");
 
-        spriteSheet[0].delete();
-        spriteSheet[1].delete();
-        spriteSheet[2].delete();
-        spriteSheet[3].delete();
-
         for(Picture sprite: spriteSheet) {
             sprite.delete();
         }
@@ -79,7 +74,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumpArc = 0;
             jumpStart = -15;
         }
-
     }
 
     private void animateSprite() {
