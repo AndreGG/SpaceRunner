@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
+import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Representable;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
@@ -8,11 +9,14 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 /**
  * Created by codecadet on 1/20/17.
  */
-public class SimpleGfxStage implements Representable {
+public class SimpleGfxStage implements MovableRepresentable {
 
     private Rectangle stage;
     private Rectangle[] borders = new Rectangle[2];
     private int backCounter;
+    Rectangle[] background = new Rectangle[13];
+    private int speed;
+
 
     public SimpleGfxStage() {
 
@@ -21,39 +25,23 @@ public class SimpleGfxStage implements Representable {
         stage.draw();
 
 
-
-        Rectangle[] background = new Rectangle[1];
         background[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
-
         for (int i = 1; i < background.length; i++) {
-            background[i] = new Rectangle(background[i-1].getX() + 80, stage.getY(), 80, stage.getHeight());
+            background[i] = new Rectangle(background[i - 1].getX() + 80, stage.getY(), 80, stage.getHeight());
         }
 
-
-        //POPULAR COM CORES
+        //RECTANGULOS COM CORES ALTERNADAS
         for (int i = 0; i < background.length; i++) {
-            if (i % 2 == 0){
+            if (i % 2 == 0) {
                 background[i].setColor(Color.GREEN);
             } else {
                 background[i].setColor(Color.RED);
             }
         }
 
-        for(Rectangle backG: background) {
+        for (Rectangle backG : background) {
             backG.fill();
         }
-
-        for (int i = 0; i < background.length; i++) {
-            if (background[0].getX() > 11) {
-                background[0].translate(-20, 0);
-            }
-
-            if (background[0].getX() < 20) {
-                background[0].translate(1000, 0);
-            }
-        }
-
-
 
         // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
         borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
@@ -64,6 +52,21 @@ public class SimpleGfxStage implements Representable {
         borders[1].setColor(Color.BLACK);
         borders[1].fill();
     }
+
+    public void animateStage() {
+
+        for (int i = 0; i < background.length; i++) {
+            if (background[i].getX() > 11) {
+                background[i].translate(-2, 0);
+            }
+
+            if (background[i].getX() < 20) {
+                background[i].translate(1000, 0);
+            }
+        }
+
+    }
+
 
     @Override
     public int getX() {
@@ -83,6 +86,11 @@ public class SimpleGfxStage implements Representable {
     @Override
     public int getHeight() {
         return stage.getHeight();
+    }
+
+    @Override
+    public void move() {
+        animateStage();
     }
 }
 

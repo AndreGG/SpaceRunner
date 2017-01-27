@@ -39,7 +39,7 @@ public class Game {
     }
 
     public void start() {
-
+        stage.move();
         obstacle1.move();
         player.move();
 

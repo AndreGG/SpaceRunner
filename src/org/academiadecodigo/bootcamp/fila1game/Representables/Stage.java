@@ -5,13 +5,17 @@ package org.academiadecodigo.bootcamp.fila1game.Representables;
  */
 public class Stage {
 
-    private Representable stage;
+    private MovableRepresentable stage;
 
-    public Representable getStage() {
+    public MovableRepresentable getStage() {
         return stage;
     }
 
-    public Stage (Representable stage) {
+    public Stage (MovableRepresentable stage) {
         this.stage = stage;
+    }
+
+    public void move() {
+        stage.move();
     }
 }
