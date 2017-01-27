@@ -134,6 +134,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     @Override
+    public void setY(int i) {
+        hitbox.translate(0,i);
+    }
+
+    @Override
     public void move() {
 
         animateSprite();

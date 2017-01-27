@@ -24,6 +24,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     }
 
     @Override
+    public void setY(int i) {
+
+    }
+
+    @Override
     public int getY() {
         return obstacle1.getY();
     }
@@ -42,7 +47,7 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     public void move() {
 
         if (obstacle1.getX() > 11) {
-            obstacle1.translate(-20, 0);
+            obstacle1.translate(-2, 0);
         }
 
         if (obstacle1.getX() <= 11) {

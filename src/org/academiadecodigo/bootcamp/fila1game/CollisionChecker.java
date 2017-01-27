@@ -1,11 +1,8 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
-import com.sun.javafx.PlatformUtil;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 
 public class CollisionChecker {
 
@@ -19,25 +16,56 @@ public class CollisionChecker {
 
     public void checkCollision(Player player) {
 
-        int distanceOnX = getObjectCenterX() - playerGetCenterX(player);
+        // Distance between the center of each object
+        int distanceOnX = getObjectCenterX() - GetPlayerCenterX(player);
+        System.out.println("Distance on X :" + distanceOnX);
 
-        int playerInnerDistanceOnX = playerGetCenterX(player) - player.getSprite().getX();
-        int objectInnerDistanceOnX = getObjectCenterX() - obstacle1.getObject().getX();
+        int playerInnerDistanceOnX = player.getWidth() / 2;
+        int objectInnerDistanceOnX = obstacle1.getWidth() / 2;
+        int sumOfInnerDistances = playerInnerDistanceOnX + objectInnerDistanceOnX;
+
+        boolean collision = ((distanceOnX <= sumOfInnerDistances)
+                && (player.getY() + player.getHeight()) > obstacle1.getPosY());
+
+//        System.out.println("Sum of inner distances: " + playerInnerDistanceOnX+objectInnerDistanceOnX);
+        System.out.println("Sum of inner distances FINAL: " + sumOfInnerDistances);
+
+        // Standing on obstacle
+//        if (collision){
+//            player.getSprite().setY(100);
+//        } else if (!collision && player.getSprite().getY() > 500){
+//            player.getSprite().setY(-100);
+//            return;
+//        }
 
 
-        if ((distanceOnX < playerInnerDistanceOnX + objectInnerDistanceOnX
-                && (player.getSprite().getY() + player.getSprite().getHeight()) > obstacle1.getObject().getY())) {
-//            player.setPlayerDead();
-            player.setLife();
+        // Collision for damage
+        if (collision) {
+            player.setPlayerDead();
+//            player.setLife();
         }
     }
 
-    public int playerGetCenterX(Player player) {
-        return ((player.getSprite().getX() + player.getSprite().getWidth()) / 2);
+    private int GetPlayerCenterX(Player player) {
+
+        // This is a pixel
+        return (player.getX() + (player.getWidth() / 2));
+
+//        return ((player.getSprite().getX() + player.getSprite().getWidth()) / 2);
     }
 
-    public int getObjectCenterX() {
-        return ((obstacle1.getObject().getX() + obstacle1.getObject().getWidth()) / 2);
+    private int getObjectCenterX() {
+
+        // This is a pixel
+        return (obstacle1.getPosX() + (obstacle1.getWidth() / 2));
+
+//        return ((obstacle1.getObject().getX() + obstacle1.getObject().getWidth()) / 2);
     }
+
+//    private int GetPlayerCenterY(Player player) {
+//
+//        //This is a pixel
+//        return ()
+//    }
 
 }

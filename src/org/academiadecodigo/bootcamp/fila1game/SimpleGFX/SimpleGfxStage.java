@@ -35,6 +35,11 @@ public class SimpleGfxStage implements Representable {
     }
 
     @Override
+    public void setY(int i) {
+
+    }
+
+    @Override
     public int getY() {
         return stage.getY();
     }
