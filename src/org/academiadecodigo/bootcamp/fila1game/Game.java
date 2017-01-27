@@ -11,6 +11,7 @@ import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 /**
  * Created by codecadet on 1/20/17.
@@ -23,17 +24,21 @@ public class Game {
     private Stage stage;
     private Player player;
     private Obstacle1 obstacle1;
+    private boolean[] gamePhases = new boolean[] { true, false, false, false };
+    private Picture loadingScreen;
 
     // TODO private ActiveBlock;
 
     public Game() {
+
+        loadingScreen = new Picture(10, 10, "loading.jpg");
+        loadingScreen.draw();
 
         player = new Player(new SimpleGfxPlayer(70,500));
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934,500));
         stage = new Stage(new SimpleGfxStage());
 
         CollisionChecker checker = new CollisionChecker(obstacle1);
-
         player.setChecker(checker);
 
     }
