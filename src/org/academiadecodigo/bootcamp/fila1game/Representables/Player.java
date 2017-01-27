@@ -21,6 +21,7 @@ public class Player {
     }
 
     public Player (MovableRepresentable sprite) {
+
         this.sprite = sprite;
         x = sprite.getX();
         y = sprite.getY();

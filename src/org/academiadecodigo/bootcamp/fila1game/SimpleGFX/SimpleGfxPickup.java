@@ -34,7 +34,17 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
     }
 
     @Override
-    public void move() {
+    public void show() {
+       return;
+    }
 
+    @Override
+    public void hide() {
+        return;
+    }
+
+    @Override
+    public void move() {
+        return;
     }
 }

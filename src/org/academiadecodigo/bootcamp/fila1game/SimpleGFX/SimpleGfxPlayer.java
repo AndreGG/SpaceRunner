@@ -22,8 +22,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpStart = -15;
     private int animationCount = 0;
 
-
-
     public SimpleGfxPlayer(int startX, int startY) {
 
         hitbox = new Rectangle(startX + 60, startY,64,64);
@@ -80,6 +78,10 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumpStart = -15;
         }
 
+    }
+
+    public void show() {
+        spriteSheet[0].draw();
     }
 
     private void animateSprite() {
@@ -156,6 +158,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             if (jumpCounter > 0) {
                 count = 0;
                 jumpStart = -15;
+                jumpArc = 0;
             }
 
         } else if (count >= 0 && hitbox.getY() < 500) {
@@ -179,7 +182,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             jumping = true;
             jumpCounter--;
-            System.out.println(jumpCounter);
+            System.out.println("JUMP COUNTER: " + jumpCounter);
         }
 
     }

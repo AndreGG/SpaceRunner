@@ -14,4 +14,8 @@ public class Stage {
     public Stage (Representable stage) {
         this.stage = stage;
     }
+
+    public void show() {
+
+    }
 }

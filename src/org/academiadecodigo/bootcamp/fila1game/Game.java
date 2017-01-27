@@ -68,10 +68,10 @@ public class Game implements KeyboardHandler{
         down.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(down);
 
-        KeyboardEvent jumpDown = new KeyboardEvent();
-        jumpDown.setKey(KeyboardEvent.KEY_UP);
-        jumpDown.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        keyboard.addEventListener(jumpDown);
+        KeyboardEvent up = new KeyboardEvent();
+        up.setKey(KeyboardEvent.KEY_UP);
+        up.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        keyboard.addEventListener(up);
 
     }
 
@@ -85,10 +85,14 @@ public class Game implements KeyboardHandler{
         player = new Player(new SimpleGfxPlayer(70, 500));
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
         stage = new Stage(new SimpleGfxStage());
+
         CollisionChecker checker = new CollisionChecker(obstacle1);
         player.setChecker(checker);
 
         currentOption = menuOptions.START;
+
+        stage.show();
+        player.getSprite().show();
 
         menuPhase = true;
 
@@ -101,14 +105,11 @@ public class Game implements KeyboardHandler{
         if (menuPhase) {
 
             menuPicture.show();
-            menuStart.show();
-            menuInstructions.show();
-            menuExit.show();
+            menuChoices[0].show;
 
             switch (option) {
                 case START:
-                    menuStartHighlight.show();
-                    menuStart.hide();
+                    menuChoices[0].show;
 
                     System.out.println("Option Start");
 
@@ -117,8 +118,7 @@ public class Game implements KeyboardHandler{
                     }
                     break;
                 case INSTRUCTIONS:
-                    menuInstructionsHighlight.show();
-                    menuStart.hide();
+                    menuChoices[1].show;
 
                     System.out.println("Option Instructions");
 
@@ -127,8 +127,7 @@ public class Game implements KeyboardHandler{
                     }
                     break;
                 case EXIT:
-                    menuExitHighlight.show();
-                    menuExit.hide();
+                    menuChoices[2].show;
 
                     System.out.println("Option Exit");
 
@@ -143,12 +142,16 @@ public class Game implements KeyboardHandler{
     }
 
     @Override
-    public void keyPressed(KeyboardEvent keyboardEvent) {
-
-
-
-
-
+    public void keyPressed(KeyboardEvent keyPressed) {
+        switch (keyPressed.getKey()) {
+            case KeyboardEvent.KEY_SPACE:
+                method(keyPressed.getKey());
+                break;
+            case KeyboardEvent.KEY_DOWN:
+                break;
+            case KeyboardEvent.KEY_UP:
+                break;
+        }
     }
 
     @Override

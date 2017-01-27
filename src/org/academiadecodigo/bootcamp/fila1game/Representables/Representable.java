@@ -12,4 +12,8 @@ public interface Representable {
     int getWidth();
 
     int getHeight();
+
+    void show();
+
+    void hide();
 }
