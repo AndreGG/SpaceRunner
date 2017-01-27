@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
+import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
@@ -16,17 +17,20 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private Picture[] spriteSheet;
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
+    private CollisionChecker checker;
     private int jumpCounter = 3;
     private int count;
     private int jumpArc = 0;
     private int jumpStart = -15;
     private int animationCount = 0;
+    private boolean playerDead;
 
 
+    public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) {
 
-    public SimpleGfxPlayer(int startX, int startY) {
+        this.checker = checker;
 
-        hitbox = new Rectangle(startX + 60, startY,64,64);
+        hitbox = new Rectangle(startX + 60, startY, 64, 64);
         keyboardInit();
 
         spriteSheet = new Picture[4];
@@ -41,7 +45,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         spriteSheet[2].delete();
         spriteSheet[3].delete();
 
-        for(Picture sprite: spriteSheet) {
+        for (Picture sprite : spriteSheet) {
             sprite.delete();
         }
 
@@ -73,7 +77,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void refreshJumps() {
 
-        if (hitbox.getY() >= 485) {
+        if (isOnFloor() || isOnTopOfObstacle()) {
             count = 0;
             jumpCounter = 3;
             jumpArc = 0;
@@ -84,14 +88,14 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
-        if (hitbox.getY() < 485) {
-            for (Picture sprite: spriteSheet) {
+        if (!isOnFloor()) {
+            for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
             spriteSheet[3].draw();
         }
 
-        if (hitbox.getY() >= 485){
+        if (isOnFloor() || isOnTopOfObstacle()) {
             spriteSheet[3].delete();
 
             if (animationCount < 6) {
@@ -111,6 +115,100 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             }
         }
         animationCount++;
+    }
+
+
+
+    @Override
+    public void move() {
+
+        if (playerDead) {
+            return;
+        }
+
+        checker.checkCollision(this);
+
+        animateSprite();
+        refreshJumps();
+
+        if (isOnTopOfObstacle()) {
+
+            if (playerDead) {
+                playerDead = false;
+            }
+
+            jumpArc = checker.distanceFromObjectOnY(this);
+
+            animate();
+
+            refreshJumps();
+
+        } else {
+
+            animate();
+        }
+    }
+
+    private void animate() {
+
+        if (count < 10 && jumping && jumpCounter > 0) {
+
+            hitbox.translate(0, jumpStart);
+
+            for (Picture word : spriteSheet) {
+                word.translate(0, jumpStart);
+            }
+
+            jumpStart++;
+            count++;
+
+            if (jumpCounter > 0) {
+                count = 0;
+                jumpStart = -15;
+            }
+
+        } else if (count >= 0 && hitbox.getY() < 500) {
+
+            jumpArc++;
+
+            hitbox.translate(0, jumpArc);
+
+            for (Picture word : spriteSheet) {
+                word.translate(0, jumpArc);
+            }
+        }
+    }
+
+
+
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+
+        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+            jumping = true;
+            jumpCounter--;
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
+
+        if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
+            jumping = false;
+        }
+    }
+
+    public void setPlayerDead() {
+        playerDead = true;
+    }
+
+    private boolean isOnTopOfObstacle() {
+        return (checker.distanceFromObjectOnY(this) < jumpArc) && (checker.isOnXWithObject(this) == true);
+    }
+
+    private boolean isOnFloor(){
+        return hitbox.getY() >= 485;
     }
 
     @Override
@@ -135,66 +233,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     @Override
     public void setY(int i) {
-        hitbox.translate(0,i);
-    }
-
-    @Override
-    public void move() {
-
-        animateSprite();
-        refreshJumps();
-
-        //System.out.println(count + " count");
-        //System.out.println(jumpCounter + " JC");
-
-        if (count < 10 && jumping && jumpCounter > 0) {
-
-            hitbox.translate(0,jumpStart);
-
-            for (Picture word: spriteSheet) {
-                word.translate(0, jumpStart);
-            }
-
-            jumpStart++;
-            count++;
-
-            if (jumpCounter > 0) {
-                count = 0;
-                jumpStart = -15;
-            }
-
-        } else if (count >= 0 && hitbox.getY() < 500) {
-
-            jumpArc++;
-
-            hitbox.translate(0, jumpArc);
-
-            for (Picture word: spriteSheet) {
-                word.translate(0, jumpArc);
-            }
-
-
-
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyboardEvent keyboardEvent) {
-
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
-            jumping = true;
-            jumpCounter--;
-            System.out.println(jumpCounter);
-        }
-
-    }
-
-    @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
-        if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
-            jumping = false;
-        }
+        hitbox.translate(0, i);
     }
 
 

@@ -5,7 +5,7 @@ import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 /**
  * Created by codecadet on 1/20/17.
  */
-public class SimpleGfxPlayer {
+public class Player {
 
     private MovableRepresentable sprite;
     private boolean playerDead;
@@ -20,15 +20,14 @@ public class SimpleGfxPlayer {
         return sprite;
     }
 
-    public SimpleGfxPlayer(MovableRepresentable sprite) {
+    public Player (MovableRepresentable sprite) {
         this.sprite = sprite;
     }
 
     public void move() {
 
-        checker.checkCollision(this);
-        System.out.println("Dead: " + playerDead);
-        System.out.println();
+//        System.out.println("Dead: " + playerDead);
+//        System.out.println();
 //        System.out.println("Life: " + life);
 //        System.out.println();
 
@@ -36,9 +35,11 @@ public class SimpleGfxPlayer {
 //            sprite.move();
 //        }
 
+/*
         if (!playerDead) {
+*/
             sprite.move();
-        }
+//        }
     }
 
     private boolean isPlayerDead() {

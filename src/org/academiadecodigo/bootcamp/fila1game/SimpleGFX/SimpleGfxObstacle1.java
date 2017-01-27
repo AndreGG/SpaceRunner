@@ -12,7 +12,7 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     private double startPos;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Rectangle(startX,startY,80,60);
+        obstacle1 = new Rectangle(startX,startY,150,64);
         obstacle1.setColor(Color.BLUE);
         obstacle1.fill();
         startPos = startX;
