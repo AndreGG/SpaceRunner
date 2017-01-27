@@ -7,6 +7,13 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHandler {
@@ -22,9 +29,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpStart = -15;
     private int animationCount = 0;
     private boolean playerDead;
+    private InputStream music = new FileInputStream("Resources/Music/jump.wav");
+    private AudioStream jumpSound = new AudioStream(music);
 
 
-    public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) {
+    public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
         this.checker = checker;
 
@@ -180,6 +189,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
             jumping = true;
             jumpCounter--;
+            AudioPlayer.player.start(jumpSound);
+            
         }
 
     }
@@ -189,6 +200,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
+
         }
     }
 

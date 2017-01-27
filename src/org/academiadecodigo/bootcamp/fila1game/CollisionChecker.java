@@ -19,10 +19,10 @@ public class CollisionChecker {
 
         // Distance between the center of each object
         int distanceOnX = getObjectCenterX() - getPlayerCenterX(player);
-        int distanceOnY = getObjectCenterY() - getPlayerCenterY(player);
+        int distanceOnY = getObjectCenterY() - getPlayerCenterY(player) + 100;
 
 //        System.out.println("Distance on X :" + distanceOnX);
-        System.out.println("Distance on Y :" + distanceOnY);
+       // System.out.println("Distance on Y :" + distanceOnY);
 
         int playerInnerDistanceOnX = player.getWidth() / 2;
         int objectInnerDistanceOnX = obstacle1.getWidth() / 2;
@@ -38,7 +38,7 @@ public class CollisionChecker {
 //        player.getY() + player.getHeight()) > obstacle1.getPosY()
 
 
-        System.out.println("Sum of inner distances: " + sumOfInnerDistancesOnY);
+        //System.out.println("Sum of inner distances: " + sumOfInnerDistancesOnY);
 //        System.out.println("Sum of inner distances FINAL: " + sumOfInnerDistancesOnX);
 
 
