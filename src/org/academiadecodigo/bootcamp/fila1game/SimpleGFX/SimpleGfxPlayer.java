@@ -41,7 +41,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         spriteSheet = new Picture[10];
 
         for(int i = 0; i < spriteSheet.length; i++) {
-            spriteSheet[i] = new Picture(startX, startY, "sprite" + i + ".png");
+            spriteSheet[i] = new Picture(hitbox.getX(), hitbox.getY(), "/spritesheet/sprite" + i + ".png");
         }
 
         for(Picture sprite: spriteSheet) {
