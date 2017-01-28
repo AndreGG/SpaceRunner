@@ -219,13 +219,26 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     }
 
+    /***
+     * Hides all sprites.
+     */
+
     public void hide() {
-        return;
+
+        for(Picture sprites: spriteSheet) {
+            sprites.delete();
+        }
+
     }
 
     public void setPlayerDead() {
         playerDead = true;
     }
+
+    /***
+     * Checks if player is above an obstacle.
+     * @return
+     */
 
     private boolean isOnTopOfObstacle() {
         return (checker.distanceFromObjectOnY(this) < jumpArc) && (checker.isOnXWithObject(this) == true);
@@ -233,16 +246,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private boolean isOnFloor() {
 
-//        boolean b = false;
-
-//        if ((485 - hitbox.getY()) < 0){
-//            jumpArc = 0;
-//            b = true;
-//        }
-//
-//        return b;
-
         return hitbox.getY() >= 500;
+        
     }
 
     @Override

@@ -105,7 +105,6 @@ public class Game implements KeyboardHandler {
 
         keyboardInit();
 
-
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
         stage = new Stage(new SimpleGfxStage());
 
@@ -192,6 +191,7 @@ public class Game implements KeyboardHandler {
         } catch (IOException message) {
             System.err.println("Error: " + message.getMessage());
         }
+
     }
 
     private void playMusic() throws IOException {
@@ -214,10 +214,10 @@ public class Game implements KeyboardHandler {
         if (musicLength == 0) {
             music.close();
             gameMusic.close();
+            music = new FileInputStream("Resources/Music/SpaceRun.wav");
             gameMusic = new AudioStream(music);
             musicPlaying = false;
             musicLength = music.available();
-
         }
 
     }

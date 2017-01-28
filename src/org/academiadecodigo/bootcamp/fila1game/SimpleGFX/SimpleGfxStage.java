@@ -73,6 +73,7 @@ public class SimpleGfxStage implements MovableRepresentable {
         borders[1] = new Rectangle(stage.getWidth() - 54, stage.getY(), 90, stage.getHeight());
         borders[1].setColor(Color.BLACK);
         borders[1].fill();
+
     }
 
     public void show() {
@@ -90,10 +91,12 @@ public class SimpleGfxStage implements MovableRepresentable {
 
     @Override
     public void move() {
+
         animateBackground();
         animateFloor();
         animateMidBackground();
         animateHighBackground();
+
     }
 
 
@@ -149,6 +152,7 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     private void animateMidBackground() {
+
         for (int i = 0; i < midBackGround.length; i++) {
             if (midBackGround[i].getX() > 11) {
                 midBackGround[i].translate(-speed, 0);
@@ -161,6 +165,7 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     private void animateHighBackground() {
+
         for (int i = 0; i < highBackGround.length; i++) {
             if (highBackGround[i].getX() > 11) {
                 highBackGround[i].translate(-speed*0.2, 0);
