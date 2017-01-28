@@ -247,7 +247,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private boolean isOnFloor() {
 
         return hitbox.getY() >= 500;
-        
+
     }
 
     @Override
