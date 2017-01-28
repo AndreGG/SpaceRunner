@@ -213,6 +213,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
+
         }
 
     }
