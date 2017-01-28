@@ -44,9 +44,9 @@ public class SimpleGfxStage implements MovableRepresentable {
         }
 
         //CRIAR HIGHBACKGROUND
-        highBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/background/background_1.png");
+        highBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/background/background_0.png");
         for (int i = 1; i < highBackGround.length; i++) {
-            highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/background/background_" + i + ".png");
+            highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 79, stage.getY(), "backGrounds/background/background_" + i + ".png");
         }
 
         for (Picture backG : highBackGround) {
