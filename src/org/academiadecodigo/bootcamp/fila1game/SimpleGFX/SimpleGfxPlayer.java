@@ -22,7 +22,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private boolean jumping;
     private Keyboard keyboard = new Keyboard(this);
     private CollisionChecker checker;
-    private int jumpCounter = 3;
+    private int jumpCounter = 2;
     private int count;
     private int jumpArc = 0;
     private int jumpStart = -15;
@@ -79,7 +79,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (isOnFloor() || isOnTopOfObstacle()) {
             count = 0;
-            jumpCounter = 3;
+            jumpCounter = 2;
             jumpArc = 0;
             jumpStart = -15;
         }
@@ -194,6 +194,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+
+            System.out.println("FIRST JUMP COUNTER: " + jumpCounter);
 
             jumping = true;
             jumpCounter--;

@@ -63,24 +63,19 @@ public class Game implements KeyboardHandler {
         player = new Player(new SimpleGfxPlayer(70, 500, checker));
         musicLength = music.available();
 
-
-
     }
 
     public void start() throws IOException {
 
         checkMusicPlaying();
-        System.out.println(musicLength);
+
         if (!musicPlaying) {
             music();
         }
 
-
-
        obstacle1.move();
        stage.move();
        player.move();
-
 
     }
 
@@ -222,6 +217,7 @@ public class Game implements KeyboardHandler {
             gameMusic = new AudioStream(music);
             musicPlaying = false;
             musicLength = music.available();
+
         }
 
     }
