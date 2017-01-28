@@ -56,13 +56,7 @@ public class Game implements KeyboardHandler {
         menuChoice = false;
         keyboard = new Keyboard(this);
 
-        loading();
-
-//        stage = new Stage(new SimpleGfxStage());
-//        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
-//        CollisionChecker checker = new CollisionChecker(obstacle1);
-//        player = new Player(new SimpleGfxPlayer(70, 500, checker));
-
+        loadResources();
 
     }
 
@@ -99,7 +93,7 @@ public class Game implements KeyboardHandler {
 
     }
 
-    private void loading() throws IOException {
+    private void loadResources() throws IOException {
 
         loadingScreen = new Picture[4];
 

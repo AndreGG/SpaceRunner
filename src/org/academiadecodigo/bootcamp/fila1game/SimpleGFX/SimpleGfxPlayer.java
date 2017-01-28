@@ -38,11 +38,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         hitbox = new Rectangle(startX + 60, startY, 64, 64);
 
-        spriteSheet = new Picture[4];
-        spriteSheet[0] = new Picture(hitbox.getX(), hitbox.getY(), "walk01.png");
-        spriteSheet[1] = new Picture(hitbox.getX(), hitbox.getY(), "walk02.png");
-        spriteSheet[2] = new Picture(hitbox.getX(), hitbox.getY(), "walk03.png");
-        spriteSheet[3] = new Picture(hitbox.getX(), hitbox.getY(), "jump.png");
+        spriteSheet = new Picture[10];
+
+        for(int i = 0; i < spriteSheet.length; i++) {
+            spriteSheet[i] = new Picture(startX, startY, "sprite" + i + ".png");
+        }
 
         for(Picture sprite: spriteSheet) {
             sprite.delete();
@@ -98,24 +98,24 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
-            spriteSheet[3].draw();
+            spriteSheet[8].draw();
         }
 
         if (isOnFloor() || isOnTopOfObstacle()) {
-            spriteSheet[3].delete();
+            spriteSheet[8].delete();
 
             if (animationCount < 6) {
-                spriteSheet[0].delete();
-                spriteSheet[1].draw();
+                spriteSheet[2].delete();
+                spriteSheet[3].draw();
             } else if (animationCount < 12) {
-                spriteSheet[1].delete();
-                spriteSheet[2].draw();
+                spriteSheet[3].delete();
+                spriteSheet[4].draw();
             } else if (animationCount < 18) {
+                spriteSheet[4].delete();
+                spriteSheet[5].draw();
+            } else if (animationCount < 24) {
                 spriteSheet[2].delete();
                 spriteSheet[1].draw();
-            } else if (animationCount < 24) {
-                spriteSheet[1].delete();
-                spriteSheet[0].draw();
             } else if (animationCount > 24) {
                 animationCount = 0;
             }
