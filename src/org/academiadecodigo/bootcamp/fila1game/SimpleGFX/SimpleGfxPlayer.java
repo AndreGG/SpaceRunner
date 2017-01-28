@@ -24,6 +24,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private CollisionChecker checker;
     private int jumpCounter = 2;
     private int count;
+    private int speed;
     private int jumpArc = 0;
     private int jumpStart = -15;
     private int animationCount = 0;
@@ -48,6 +49,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         }
 
         keyboardInit();
+        speed = 0;
 
     }
 
@@ -266,6 +268,10 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     @Override
     public void setY(int i) {
         hitbox.translate(0, i);
+    }
+
+    public int getSpeed() {
+        return this.speed;
     }
 
 }

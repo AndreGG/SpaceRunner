@@ -19,7 +19,7 @@ public class CollisionChecker {
 
         // Distance between the center of each object
         int distanceOnX = getObjectCenterX() - getPlayerCenterX(player);
-        int distanceOnY = getObjectCenterY() - getPlayerCenterY(player) + 100;
+        int distanceOnY = getObjectCenterY() - getPlayerCenterY(player);
 
 //        System.out.println("Distance on X :" + distanceOnX);
        // System.out.println("Distance on Y :" + distanceOnY);
@@ -34,6 +34,25 @@ public class CollisionChecker {
 
         boolean collision = ((distanceOnX <= sumOfInnerDistancesOnX)
                 && (distanceOnY < sumOfInnerDistancesOnY));
+
+        int playerRightX = player.getX() + player.getWidth();
+        int playerDownLeftPix = player.getY() + player.getHeight();
+
+        int obstacleLeftX = obstacle1.getPosX();
+        int obstacleUpLeftPix = obstacle1.getPosY();
+
+        System.out.println("Obstacle Position Left X " + obstacleLeftX + " ####### ");
+        System.out.println("Player Right X " + playerRightX + " @@@@@@ ");
+        System.out.println("Obstacle Left Y " + obstacleUpLeftPix + " !!!!!! ");
+        System.out.println("Player Down Y " + playerDownLeftPix + " $$$$$$ ");
+
+
+        boolean collision2 = ((playerRightX - obstacleLeftX) >= obstacle1.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
+                && player.getX() < obstacle1.getPosX();
+
+
+
+
 
 //        player.getY() + player.getHeight()) > obstacle1.getPosY()
 
@@ -52,7 +71,7 @@ public class CollisionChecker {
 
 
         // Collision for damage
-        if (collision) {
+        if (collision2) {
             player.setPlayerDead();
 //            player.setLife();
             System.out.println("COLLISION");
