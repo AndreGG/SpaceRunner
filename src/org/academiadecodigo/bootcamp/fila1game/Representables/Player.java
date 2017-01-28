@@ -14,7 +14,6 @@ public class Player {
     private CollisionChecker checker;
     private int width;
     private int height;
-    private int life = 10;
 
     public MovableRepresentable getSprite() {
         return sprite;
@@ -26,21 +25,7 @@ public class Player {
     }
 
     public void move() {
-
-//        System.out.println("Dead: " + playerDead);
-//        System.out.println();
-//        System.out.println("Life: " + life);
-//        System.out.println();
-
-//        if (life > 0) {
-//            sprite.move();
-//        }
-
-/*
-        if (!playerDead) {
-*/
             sprite.move();
-//        }
     }
 
     private boolean isPlayerDead() {
@@ -71,7 +56,4 @@ public class Player {
         return sprite.getHeight();
     }
 
-    public void setLife() {
-        life--;
-    }
 }

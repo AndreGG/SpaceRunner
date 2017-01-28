@@ -2,22 +2,25 @@ package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle2;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle3;
 import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 import java.util.List;
+
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,7 +32,7 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects;
+    private GameObjects[] gameObjects = new GameObjects[3];
     private boolean menuPhase;
     private boolean playPhase;
     private boolean gameoverPhase;
@@ -55,11 +58,15 @@ public class Game implements KeyboardHandler {
         menuChoice = false;
         keyboard = new Keyboard(this);
 
-        loading();
+//        loading();
 
         stage = new Stage(new SimpleGfxStage());
-        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
-        CollisionChecker checker = new CollisionChecker(obstacle1);
+        gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 500));
+        gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(800, 500));
+        gameObjects[2] = new Obstacle3(new SimpleGfxObstacle3(700, 500));
+
+
+        CollisionChecker checker = new CollisionChecker(gameObjects);
         player = new Player(new SimpleGfxPlayer(70, 500, checker));
         musicLength = music.available();
 
@@ -73,9 +80,13 @@ public class Game implements KeyboardHandler {
             music();
         }
 
-       obstacle1.move();
-       stage.move();
-       player.move();
+
+        for (GameObjects obstacle: gameObjects) {
+            obstacle.move();
+        }
+
+        stage.move();
+        player.move();
 
     }
 
@@ -98,7 +109,7 @@ public class Game implements KeyboardHandler {
 
     }
 
-    private void loading() throws IOException {
+/*    private void loading() throws IOException {
 
         loadingScreen = new Picture(10, 10, "loading.jpg");
         loadingScreen.draw();
@@ -120,7 +131,7 @@ public class Game implements KeyboardHandler {
 
         menuPhase = true;
 
-    }
+    }*/
 
     //TODO
 //    private void menu(menuOptions option) {

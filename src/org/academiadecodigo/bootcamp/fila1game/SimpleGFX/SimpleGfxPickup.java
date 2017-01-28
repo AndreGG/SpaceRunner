@@ -49,7 +49,13 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
     }
 
     @Override
+    public int getSpeed() {
+        return 0;
+    }
+
+    @Override
     public void move() {
         return;
     }
+
 }

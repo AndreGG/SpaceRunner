@@ -9,6 +9,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private CollisionChecker checker;
     private int jumpCounter = 2;
     private int count;
+    private int speed;
     private int jumpArc = 0;
     private int jumpStart = -15;
     private int animationCount = 0;
@@ -43,11 +45,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         spriteSheet[2] = new Picture(hitbox.getX(), hitbox.getY(), "walk03.png");
         spriteSheet[3] = new Picture(hitbox.getX(), hitbox.getY(), "jump.png");
 
-        for(Picture sprite: spriteSheet) {
+        for (Picture sprite : spriteSheet) {
             sprite.delete();
         }
 
         keyboardInit();
+        speed = 0;
 
     }
 
@@ -134,22 +137,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         animateSprite();
         refreshJumps();
 
-        if (isOnTopOfObstacle()) {
-
-            if (playerDead) {
-                playerDead = false;
-            }
-
-            jumpArc = checker.distanceFromObjectOnY(this);
-
-            jump();
-            refreshJumps();
-
-        } else {
-
-            jump();
-
-        }
+        jump();
 
     }
 
@@ -176,7 +164,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
             jumpArc++;
 
-            if ((getY()+jumpArc) > 500){
+            if ((getY() + jumpArc) > 500) {
                 jumpArc = 500 - getY();
             }
 
@@ -195,12 +183,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
 
-            System.out.println("FIRST JUMP COUNTER: " + jumpCounter);
-
             jumping = true;
             jumpCounter--;
-
-            System.out.println("JUMP COUNTER: " + jumpCounter);
 
             AudioPlayer.player.start(jumpSound);
 
@@ -230,16 +214,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private boolean isOnFloor() {
-
-//        boolean b = false;
-
-//        if ((485 - hitbox.getY()) < 0){
-//            jumpArc = 0;
-//            b = true;
-//        }
-//
-//        return b;
-
         return hitbox.getY() >= 500;
     }
 
@@ -266,6 +240,10 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     @Override
     public void setY(int i) {
         hitbox.translate(0, i);
+    }
+
+    public int getSpeed() {
+        return this.speed;
     }
 
 }

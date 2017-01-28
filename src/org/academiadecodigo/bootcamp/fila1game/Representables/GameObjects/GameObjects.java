@@ -41,6 +41,11 @@ public abstract class GameObjects {
         return object.getWidth();
     }
 
+    public void move(){
+        object.move();
+    }
+
+    public int getSpeed() { return object.getSpeed(); }
     //TODO reached end
 
 }

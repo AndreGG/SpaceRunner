@@ -84,6 +84,11 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
+    public int getSpeed() {
+        return 0;
+    }
+
+    @Override
     public void move() {
         animateBackground();
         animateFloor();
