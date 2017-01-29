@@ -57,10 +57,6 @@ public class Game implements KeyboardHandler {
         keyboard = new Keyboard(this);
 
         loadResources();
-        System.out.println(menuOptions.values()[0]);
-        System.out.println(menuOptions.values()[1]);
-        System.out.println(menuOptions.values()[2]);
-        System.out.println(menuOptions.values()[3]);
 
     }
 
@@ -72,9 +68,13 @@ public class Game implements KeyboardHandler {
             music();
         }
 
-       obstacle1.move();
-       stage.move();
-       player.move();
+        menu(currentOption);
+
+        if (!menuPhase) {
+            obstacle1.move();
+            stage.move();
+            player.move();
+        }
 
     }
 
@@ -85,6 +85,11 @@ public class Game implements KeyboardHandler {
         chooseMenuAction.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(chooseMenuAction);
 
+        KeyboardEvent releaseMenuAction = new KeyboardEvent();
+        releaseMenuAction.setKey(KeyboardEvent.KEY_SPACE);
+        releaseMenuAction.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        keyboard.addEventListener(releaseMenuAction);
+
         KeyboardEvent down = new KeyboardEvent();
         down.setKey(KeyboardEvent.KEY_DOWN);
         down.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
@@ -92,7 +97,7 @@ public class Game implements KeyboardHandler {
 
         KeyboardEvent up = new KeyboardEvent();
         up.setKey(KeyboardEvent.KEY_UP);
-        up.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        up.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(up);
 
     }
@@ -147,13 +152,9 @@ public class Game implements KeyboardHandler {
 
     private void menu(menuOptions option) {
 
-        currentOption = option;
-
         if (menuPhase) {
 
-            menuScreen[0].draw();
-
-            switch (currentOption) {
+            switch (option) {
                 case START:
                     menuScreen[0].draw();
 
@@ -162,6 +163,7 @@ public class Game implements KeyboardHandler {
                     if (menuChoice) {
 
                         menuPhase = false;
+
                         for (Picture menu: menuScreen) {
                             menu.delete();
                         }
@@ -170,6 +172,9 @@ public class Game implements KeyboardHandler {
                     break;
                 case INSTRUCTIONS:
                     menuScreen[1].draw();
+
+                    menuScreen[0].delete();
+                    menuScreen[2].delete();
 
                     System.out.println("Option Instructions");
 
@@ -180,9 +185,17 @@ public class Game implements KeyboardHandler {
                 case CREDITS:
                     menuScreen[2].draw();
 
+                    menuScreen[1].delete();
+                    menuScreen[3].delete();
+
                     System.out.println("Credits Instructions");
+
+                    break;
                 case EXIT:
                     menuScreen[3].draw();
+
+                    menuScreen[0].delete();
+                    menuScreen[2].delete();
 
                     System.out.println("Option Exit");
 
@@ -234,6 +247,45 @@ public class Game implements KeyboardHandler {
 
     }
 
+    public menuOptions menuDown(menuOptions option) {
+
+        switch (option) {
+            case START:
+                currentOption = menuOptions.INSTRUCTIONS;
+                break;
+            case INSTRUCTIONS:
+                currentOption = menuOptions.CREDITS;
+                break;
+            case CREDITS:
+                currentOption = menuOptions.EXIT;
+                break;
+            case EXIT:
+                currentOption = menuOptions.START;
+                break;
+        }
+
+        return currentOption;
+    }
+
+    public menuOptions menuUp(menuOptions option) {
+
+        switch (option) {
+            case START:
+                currentOption = menuOptions.EXIT;
+                break;
+            case INSTRUCTIONS:
+                currentOption = menuOptions.START;
+                break;
+            case CREDITS:
+                currentOption = menuOptions.INSTRUCTIONS;
+                break;
+            case EXIT:
+                currentOption = menuOptions.CREDITS;
+                break;
+        }
+
+        return currentOption;
+    }
     //TODO reached end;
 
     private enum menuOptions {
@@ -244,21 +296,29 @@ public class Game implements KeyboardHandler {
     }
 
     @Override
-    public void keyPressed(KeyboardEvent keyPressed) {
-        switch (keyPressed.getKey()) {
+    public void keyPressed(KeyboardEvent key) {
+        switch (key.getKey()) {
             case KeyboardEvent.KEY_SPACE:
-                // TODO method(keyPressed.getKey());
+                menuChoice = true;
                 break;
             case KeyboardEvent.KEY_DOWN:
+                menuDown(currentOption);
+                System.out.println("button");
                 break;
             case KeyboardEvent.KEY_UP:
+                menuUp(currentOption);
+                System.out.println("button2");
                 break;
         }
     }
 
     @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
+    public void keyReleased(KeyboardEvent key) {
+        switch (key.getKey()) {
+            case KeyboardEvent.KEY_SPACE:
+                menuChoice = false;
+                break;
+        }
 
     }
 
