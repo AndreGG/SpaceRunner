@@ -130,7 +130,7 @@ public class SimpleGfxStage implements MovableRepresentable {
         return stage.getHeight();
     }
 
-    public void animateBackground() {
+    private void animateBackground() {
 
         for (int i = 0; i < background.length; i++) {
             if (background[i].getX() > 11) {
@@ -143,7 +143,7 @@ public class SimpleGfxStage implements MovableRepresentable {
         }
     }
 
-    public void animateFloor() {
+    private void animateFloor() {
 
         for (int i = 0; i < floor.length; i++) {
             if (floor[i].getX() > 11) {
