@@ -41,7 +41,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         spriteSheet = new Picture[10];
 
         for(int i = 0; i < spriteSheet.length; i++) {
-            spriteSheet[i] = new Picture(hitbox.getX(), hitbox.getY(), "/spritesheet/sprite" + i + ".png");
+            spriteSheet[i] = new Picture(hitbox.getX(), hitbox.getY(), "/spritesheet/sprite_" + i + ".png");
         }
 
         for(Picture sprite: spriteSheet) {
@@ -98,21 +98,21 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
-            spriteSheet[8].draw();
+            spriteSheet[7].draw();
         }
 
         if (isOnFloor() || isOnTopOfObstacle()) {
-            spriteSheet[8].delete();
+            spriteSheet[7].delete();
 
             if (animationCount < 6) {
+                spriteSheet[1].delete();
+                spriteSheet[2].draw();
+            } else if (animationCount < 12) {
                 spriteSheet[2].delete();
                 spriteSheet[3].draw();
-            } else if (animationCount < 12) {
-                spriteSheet[3].delete();
-                spriteSheet[4].draw();
             } else if (animationCount < 18) {
-                spriteSheet[4].delete();
-                spriteSheet[5].draw();
+                spriteSheet[3].delete();
+                spriteSheet[2].draw();
             } else if (animationCount < 24) {
                 spriteSheet[2].delete();
                 spriteSheet[1].draw();
@@ -157,12 +157,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void jump() {
 
-        if (count < 10 && jumping && jumpCounter > 0) {
+        if (count < 30 && jumping && jumpCounter > 0) {
 
             hitbox.translate(0, jumpStart);
 
-            for (Picture word : spriteSheet) {
-                word.translate(0, jumpStart);
+            for (Picture sprite : spriteSheet) {
+                sprite.translate(0, jumpStart);
             }
 
             jumpStart++;
@@ -184,8 +184,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
             hitbox.translate(0, jumpArc);
 
-            for (Picture word : spriteSheet) {
-                word.translate(0, jumpArc);
+            for (Picture sprite : spriteSheet) {
+                sprite.translate(0, jumpArc);
             }
 
         }

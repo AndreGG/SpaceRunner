@@ -41,18 +41,8 @@ public class CollisionChecker {
         int obstacleLeftX = obstacle1.getPosX();
         int obstacleUpLeftPix = obstacle1.getPosY();
 
-        System.out.println("Obstacle Position Left X " + obstacleLeftX + " ####### ");
-        System.out.println("Player Right X " + playerRightX + " @@@@@@ ");
-        System.out.println("Obstacle Left Y " + obstacleUpLeftPix + " !!!!!! ");
-        System.out.println("Player Down Y " + playerDownLeftPix + " $$$$$$ ");
-
-
         boolean collision2 = ((playerRightX - obstacleLeftX) >= obstacle1.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
                 && player.getX() < obstacle1.getPosX();
-
-
-
-
 
 //        player.getY() + player.getHeight()) > obstacle1.getPosY()
 

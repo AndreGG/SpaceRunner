@@ -57,6 +57,10 @@ public class Game implements KeyboardHandler {
         keyboard = new Keyboard(this);
 
         loadResources();
+        System.out.println(menuOptions.values()[0]);
+        System.out.println(menuOptions.values()[1]);
+        System.out.println(menuOptions.values()[2]);
+        System.out.println(menuOptions.values()[3]);
 
     }
 
@@ -111,7 +115,7 @@ public class Game implements KeyboardHandler {
         menuScreen = new Picture[4];
 
         for (int i = 0; i < menuScreen.length; i++) {
-            menuScreen[i] = new Picture(10, 10, "/menu/menu" + i + ".png");
+            menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
         }
 
         loadingScreen[1].draw();
@@ -149,7 +153,7 @@ public class Game implements KeyboardHandler {
 
             menuScreen[0].draw();
 
-            switch (option) {
+            switch (currentOption) {
                 case START:
                     menuScreen[0].draw();
 
