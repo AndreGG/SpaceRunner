@@ -14,10 +14,13 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 import java.util.List;
+
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,12 +32,13 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects;
+    private GameObjects[] gameObjects = new GameObjects[1];
     private boolean menuPhase;
     private boolean playPhase;
     private boolean gameoverPhase;
     private boolean menuChoice;
-    private Picture loadingScreen;
+    private Picture[] loadingScreen;
+    private Picture[] menuScreen;
     private menuOptions currentOption;
     private Keyboard keyboard;
     private Stage stage;
@@ -55,34 +59,41 @@ public class Game implements KeyboardHandler {
         menuChoice = false;
         keyboard = new Keyboard(this);
 
-        loading();
-
-        stage = new Stage(new SimpleGfxStage());
-        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
-        CollisionChecker checker = new CollisionChecker(obstacle1);
-        player = new Player(new SimpleGfxPlayer(70, 500, checker));
-        musicLength = music.available();
-
-
+        loadResources();
+        System.out.println(menuOptions.values()[0]);
+        System.out.println(menuOptions.values()[1]);
+        System.out.println(menuOptions.values()[2]);
+        System.out.println(menuOptions.values()[3]);
 
     }
 
     public void start() throws IOException {
 
         checkMusicPlaying();
-        //tem.out.println(musicLength);
+
         if (!musicPlaying) {
             music();
         }
 
-
-
-       obstacle1.move();
-       stage.move();
-       player.move();
-
+        activeObject();
+        gameObjects[0].getObject().move();
+        stage.move();
+        player.move();
 
     }
+
+
+    private void activeObject() {
+        for (int i = 0; i < gameObjects.length; i++) {
+            if (gameObjects[i].getObject().isActive() == true) {
+                return;
+            }
+        }
+
+        gameObjects[(int) Math.random() * gameObjects.length].getObject().setActive(true);
+
+    }
+
 
     public void keyboardInit() {
 
@@ -103,90 +114,102 @@ public class Game implements KeyboardHandler {
 
     }
 
-    private void loading() throws IOException {
+    private void loadResources() throws IOException {
 
-        loadingScreen = new Picture(10, 10, "loading.jpg");
-        loadingScreen.draw();
+        loadingScreen = new Picture[4];
+
+        for (int i = 0; i < loadingScreen.length; i++) {
+            loadingScreen[i] = new Picture(10, 10, "/loading/loading_" + i + ".png");
+        }
+
+        loadingScreen[0].draw();
 
         keyboardInit();
 
-
-        obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
         stage = new Stage(new SimpleGfxStage());
+        gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 500));
 
-        CollisionChecker checker = new CollisionChecker(obstacle1);
+        menuScreen = new Picture[4];
+
+        for (int i = 0; i < menuScreen.length; i++) {
+            menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
+        }
+
+        loadingScreen[1].draw();
+        loadingScreen[0].delete();
+
+        CollisionChecker checker = new CollisionChecker((Obstacle1) gameObjects[0]);
         player = new Player(new SimpleGfxPlayer(70, 500, checker));
         player.setChecker(checker);
 
         currentOption = menuOptions.START;
 
+        loadingScreen[2].draw();
+        loadingScreen[1].delete();
+
         stage.show();
         player.getSprite().show();
 
+        loadingScreen[3].draw();
+
+        musicLength = music.available();
+
         menuPhase = true;
 
-    }
-
-    //TODO
-//    private void menu(menuOptions option) {
-//
-//        currentOption = option;
-//
-//        if (menuPhase) {
-//
-//            menuPicture.show();
-//            menuChoices[0].show;
-//
-//            switch (option) {
-//                case START:
-//                    menuChoices[0].show;
-//
-//                    System.out.println("Option Start");
-//
-//                    if (menuChoice) {
-//                        menuPhase = false;
-//                    }
-//                    break;
-//                case INSTRUCTIONS:
-//                    menuChoices[1].show;
-//
-//                    System.out.println("Option Instructions");
-//
-//                    if (menuChoice) {
-//
-//                    }
-//                    break;
-//                case EXIT:
-//                    menuChoices[2].show;
-//
-//                    System.out.println("Option Exit");
-//
-//                    if (menuChoice) {
-//                        System.exit(1);
-//                    }
-//                    break;
-//            }
-//
-//        }
-//
-//    }
-
-    @Override
-    public void keyPressed(KeyboardEvent keyPressed) {
-        switch (keyPressed.getKey()) {
-            case KeyboardEvent.KEY_SPACE:
-                // TODO method(keyPressed.getKey());
-                break;
-            case KeyboardEvent.KEY_DOWN:
-                break;
-            case KeyboardEvent.KEY_UP:
-                break;
+        for (Picture load : loadingScreen) {
+            load.delete();
         }
+
     }
 
-    @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
+    private void menu(menuOptions option) {
 
+        currentOption = option;
+
+        if (menuPhase) {
+
+            menuScreen[0].draw();
+
+            switch (currentOption) {
+                case START:
+                    menuScreen[0].draw();
+
+                    System.out.println("Option Start");
+
+                    if (menuChoice) {
+
+                        menuPhase = false;
+                        for (Picture menu : menuScreen) {
+                            menu.delete();
+                        }
+
+                    }
+                    break;
+                case INSTRUCTIONS:
+                    menuScreen[1].draw();
+
+                    System.out.println("Option Instructions");
+
+                    if (menuChoice) {
+
+                    }
+                    break;
+                case CREDITS:
+                    menuScreen[2].draw();
+
+                    System.out.println("Credits Instructions");
+                case EXIT:
+                    menuScreen[3].draw();
+
+                    System.out.println("Option Exit");
+
+                    if (menuChoice) {
+                        System.exit(1);
+                    }
+                    break;
+            }
+
+        }
 
     }
 
@@ -197,6 +220,7 @@ public class Game implements KeyboardHandler {
         } catch (IOException message) {
             System.err.println("Error: " + message.getMessage());
         }
+
     }
 
     private void playMusic() throws IOException {
@@ -219,6 +243,7 @@ public class Game implements KeyboardHandler {
         if (musicLength == 0) {
             music.close();
             gameMusic.close();
+            music = new FileInputStream("Resources/Music/SpaceRun.wav");
             gameMusic = new AudioStream(music);
             musicPlaying = false;
             musicLength = music.available();
@@ -231,8 +256,29 @@ public class Game implements KeyboardHandler {
     private enum menuOptions {
         START,
         INSTRUCTIONS,
+        CREDITS,
         EXIT;
     }
+
+    @Override
+    public void keyPressed(KeyboardEvent keyPressed) {
+        switch (keyPressed.getKey()) {
+            case KeyboardEvent.KEY_SPACE:
+                // TODO method(keyPressed.getKey());
+                break;
+            case KeyboardEvent.KEY_DOWN:
+                break;
+            case KeyboardEvent.KEY_UP:
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
+
+
+    }
+
 
 }
 

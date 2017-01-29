@@ -12,6 +12,8 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     private Rectangle obstacle1;
     private Picture pic;
     private double startPos;
+    private int speed;
+    private boolean active;
 
     public SimpleGfxObstacle1(int startX, int startY) {
         obstacle1 = new Rectangle(startX,startY, 64, 64);
@@ -21,6 +23,8 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
         pic.draw();
 
         startPos = startX;
+
+        speed = -5;
     }
 
     @Override
@@ -48,6 +52,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
         return obstacle1.getHeight();
     }
 
+    @Override
+    public int getSpeed() {
+        return this.speed;
+    }
+
     public void show() {
 
     }
@@ -59,15 +68,26 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     @Override
     public void move() {
 
-        if (obstacle1.getX() > 11) {
-            obstacle1.translate(-5, 0);
-            pic.translate(-5, 0);
+        if (obstacle1.getX() > 11 && active == true) {
+            obstacle1.translate(speed, 0);
+            pic.translate(speed, 0);
         }
 
         if (obstacle1.getX() <= 11) {
             obstacle1.translate(startPos, 0);
             pic.translate(startPos, 0);
+            active = false;
         }
 
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

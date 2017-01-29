@@ -36,29 +36,20 @@ public class CollisionChecker {
                 && (player.getX() < (obstacle1.getPosX()+obstacle1.getWidth()))
                 && (distanceOnY < sumOfInnerDistancesOnY)));
 
-//        player.getY() + player.getHeight()) > obstacle1.getPosY()
+        int playerRightX = player.getX() + player.getWidth();
+        int playerDownLeftPix = player.getY() + player.getHeight();
 
+        int obstacleLeftX = obstacle1.getPosX();
+        int obstacleUpLeftPix = obstacle1.getPosY();
 
-        //System.out.println("Sum of inner distances: " + sumOfInnerDistancesOnY);
-//        System.out.println("Sum of inner distances FINAL: " + sumOfInnerDistancesOnX);
+        boolean collision2 = ((playerRightX - obstacleLeftX) >= obstacle1.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
+                && player.getX() < obstacle1.getPosX();
 
-
-        // Standing on obstacle
-//        if (collision) {
-//            player.getSprite().setY(diff);
-//        } else if (!collision && player.getSprite().getY() < 500) {
-//            player.getSprite().setY(-diff);
-//            return;
-//        }
 
 
         // Collision for damage
-        if (collision) {
 
-/*            if (getPlayerCenterX(player) > getObjectCenterX()) {
-                return;
-            }*/
-
+        if (collision2) {
             player.setPlayerDead();
 //            player.setLife();
             System.out.println("COLLISION");
