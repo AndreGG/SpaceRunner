@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
@@ -15,10 +16,10 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
     private boolean active;
 
     public SimpleGfxObstacle2(int startX, int startY) {
-        sprite = new Rectangle(startX,startY-64, 64, 128);
+        sprite = new Rectangle(startX,startY-87, 80, 151);
 //        sprite.setColor(Color.WHITE);
 //        sprite.fill();
-        pic = new Picture(startX, startY-64, "backGrounds/obstacles/ObstacleZ.png");
+        pic = new Picture(startX, startY-87, "backGrounds/obstacles/ObstacleZ.png");
 //        pic.draw();
 
 
@@ -58,15 +59,19 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
     }
 
     public void show() {
+//        sprite.fill();
         pic.draw();
     }
 
     public void hide() {
+//        sprite.delete();
         pic.delete();
     }
 
     @Override
-    public void move() {
+    public void move(int speed) {
+
+        this.speed = speed;
 
         if ((sprite.getX() > 11) && (active == true)) {
             sprite.translate(speed, 0);
@@ -81,10 +86,7 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
 
     }
 
-    @Override
-    public Rectangle getRectangle() {
-        return sprite;
-    }
+
 
     @Override
     public boolean isActive() {
@@ -94,6 +96,11 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
     @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public void move() {
+
     }
 }
 

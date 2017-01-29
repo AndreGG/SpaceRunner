@@ -163,6 +163,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     @Override
+    public void move(int speed) {
+
+    }
+
+    @Override
     public void setActive(boolean active) {
 
     }
@@ -172,14 +177,9 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         return false;
     }
 
-    @Override
-    public Rectangle getRectangle() {
-        return null;
-    }
 
     private void jump() {
 
-        System.out.println(count);
         if (count < 30 && jumping && jumpCounter > 0) {
 
             hitbox.translate(0, jumpStart);
@@ -200,12 +200,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
             }
 
-        } else if (count >= 0 && hitbox.getY() < 500) {
+        } else if (count >= 0 && hitbox.getY() < 480) {
 
                 jumpArc++;
 
-                if ((getY()+jumpArc) > 500) {
-                    jumpArc = 500 - getY();
+                if ((getY()+jumpArc) > 480) {
+                    jumpArc = 480 - getY();
                 }
 
                 hitbox.translate(0, jumpArc);
@@ -268,7 +268,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private boolean isOnFloor() {
 
-        return hitbox.getY() >= 500;
+        return hitbox.getY() >= 480;
 
     }
 

@@ -11,13 +11,12 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class SimpleGfxStage implements MovableRepresentable {
 
     private Rectangle stage;
-    private Rectangle[] borders = new Rectangle[2];
     Picture[] background = new Picture[13];
     Picture[] floor = new Picture[13];
     Picture[] midBackGround = new Picture[13];
     Picture[] highBackGround = new Picture[13];
 
-    private int speed = 1;
+    private int speed = -1;
 
     public SimpleGfxStage() {
 
@@ -73,14 +72,7 @@ public class SimpleGfxStage implements MovableRepresentable {
             backG.draw();
         }
 
-        // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
-        borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
-        borders[0].setColor(Color.BLACK);
-        borders[0].fill();
 
-        borders[1] = new Rectangle(stage.getWidth() - 80, stage.getY(), 100, stage.getHeight());
-        borders[1].setColor(Color.BLACK);
-        borders[1].fill();
 
     }
 
@@ -94,7 +86,9 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
-    public void move() {
+    public void move(int speed) {
+
+        this.speed = speed/5;
 
         animateBackground();
         animateFloor();
@@ -114,9 +108,10 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
-    public Rectangle getRectangle() {
-        return null;
+    public void move() {
+
     }
+
 
 
     @Override
@@ -148,7 +143,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < background.length; i++) {
             if (background[i].getX() > 11) {
-                background[i].translate(-speed*0.7, 0);
+                background[i].translate(speed*0.7, 0);
             }
 
             if (background[i].getX() <= 11) {
@@ -161,7 +156,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < floor.length; i++) {
             if (floor[i].getX() > 11) {
-                floor[i].translate(-speed*5, 0);
+                floor[i].translate(speed*5, 0);
             }
 
             if (floor[i].getX() <= 11) {
@@ -174,7 +169,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < midBackGround.length; i++) {
             if (midBackGround[i].getX() > 11) {
-                midBackGround[i].translate(-speed, 0);
+                midBackGround[i].translate(speed, 0);
             }
 
             if (midBackGround[i].getX() <= 11) {
@@ -187,7 +182,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < highBackGround.length; i++) {
             if (highBackGround[i].getX() > 11) {
-                highBackGround[i].translate(-speed*0.2, 0);
+                highBackGround[i].translate(speed*0.2, 0);
             }
 
             if (highBackGround[i].getX() <= 11) {

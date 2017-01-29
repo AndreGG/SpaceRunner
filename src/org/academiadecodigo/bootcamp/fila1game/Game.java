@@ -3,13 +3,12 @@ package org.academiadecodigo.bootcamp.fila1game;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle2;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle3;
 import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle2;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
-import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
@@ -34,7 +33,7 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects = new GameObjects[2];
+    private GameObjects[] gameObjects = new GameObjects[3];
     private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
@@ -42,6 +41,7 @@ public class Game implements KeyboardHandler {
     private boolean menuChoice;
     private Picture[] loadingScreen;
     private Picture[] menuScreen;
+    private Rectangle[] borders = new Rectangle[2];
     private menuOptions currentOption;
     private Keyboard keyboard;
     private Stage stage;
@@ -51,6 +51,8 @@ public class Game implements KeyboardHandler {
     private AudioStream gameMusic;
     private boolean musicPlaying;
     private int musicLength;
+    private int gameSpeed = -5;
+    private int gameSpeedCount = 0;
 
     // TODO private ActiveBlock;
 
@@ -84,10 +86,20 @@ public class Game implements KeyboardHandler {
             checker.setActiveObject(activeObject);
 
             for (GameObjects object: gameObjects) {
-                object.getObject().move();
+                object.getObject().move(gameSpeed);
             }
 
-            stage.move();
+            if (gameSpeed > -30){
+                gameSpeedCount++;
+
+                if (gameSpeedCount == 200){
+                    gameSpeed--;
+                    System.out.println(gameSpeed);
+                    gameSpeedCount = 0;
+                }
+            }
+
+            stage.getStage().move(gameSpeed);
             player.move();
         }
 
@@ -191,11 +203,12 @@ public class Game implements KeyboardHandler {
         loadingScreen[0].delete();
 
         checker = new CollisionChecker();
-        player = new Player(new SimpleGfxPlayer(70, 480, checker));
+        player = new Player(new SimpleGfxPlayer(70, 100, checker));
         player.setChecker(checker);
 
         gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 480));
         gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 480));
+        gameObjects[2] = new Obstacle3(new SimpleGfxObstacle3(934, 480));
 
         /**
          * Game variables set up and keyboard
@@ -260,6 +273,8 @@ public class Game implements KeyboardHandler {
                         for (GameObjects object: gameObjects) {
                             object.getObject().show();
                         }
+
+                        loadEdges();
                     }
                     break;
                 case INSTRUCTIONS:
@@ -287,6 +302,19 @@ public class Game implements KeyboardHandler {
 
         }
 
+    }
+
+    private void loadEdges() {
+
+        // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
+        borders[0] = new Rectangle(10, 10, 100, 576);
+        borders[0].setColor(Color.BLACK);
+        borders[0].fill();
+
+        borders[1] = new Rectangle(1024 - 90, 10, 110, 576);
+        borders[1].setColor(Color.BLACK);
+        borders[1].fill();
+        borders[1].fill();
     }
 
     private void music() throws IOException {
@@ -382,11 +410,9 @@ public class Game implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_DOWN:
                 menuDown(currentOption);
-                System.out.println("button");
                 break;
             case KeyboardEvent.KEY_UP:
                 menuUp(currentOption);
-                System.out.println("button2");
                 break;
             case KeyboardEvent.KEY_Q:
                 if(playPhase) {

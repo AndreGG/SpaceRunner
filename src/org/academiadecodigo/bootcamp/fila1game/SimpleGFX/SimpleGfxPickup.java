@@ -59,6 +59,11 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
     }
 
     @Override
+    public void move(int speed) {
+
+    }
+
+    @Override
     public void setActive(boolean active) {
 
     }
@@ -68,9 +73,5 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
         return false;
     }
 
-    @Override
-    public Rectangle getRectangle() {
-        return null;
-    }
 
 }

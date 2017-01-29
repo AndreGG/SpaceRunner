@@ -21,9 +21,6 @@ public class CollisionChecker {
         int distanceOnX = getObjectCenterX() - getPlayerCenterX(player);
         int distanceOnY = getObjectCenterY() - getPlayerCenterY(player);
 
-//        System.out.println("Distance on X :" + distanceOnX);
-       // System.out.println("Distance on Y :" + distanceOnY);
-
         int playerInnerDistanceOnX = player.getWidth() / 2;
         int objectInnerDistanceOnX = activeObject.getWidth() / 2;
         int sumOfInnerDistancesOnX = playerInnerDistanceOnX + objectInnerDistanceOnX;
@@ -46,13 +43,10 @@ public class CollisionChecker {
                 && player.getX() < activeObject.getPosX();
 
 
-
         // Collision for damage
 
         if (collision2) {
             player.setPlayerDead();
-//            player.setLife();
-            System.out.println("COLLISION");
         }
     }
 
@@ -83,12 +77,6 @@ public class CollisionChecker {
     public boolean isOnXWithObject(SimpleGfxPlayer player){
         return ((player.getX()+player.getWidth()) > activeObject.getPosX())
                 && (player.getX() < (activeObject.getPosX()+ activeObject.getWidth()));
-    }
-
-    public boolean xIsPassed(SimpleGfxPlayer player){
-        System.out.println(player.getX());
-        System.out.println(activeObject.getPosX()+ activeObject.getWidth());
-        return player.getX() >= (activeObject.getPosX()+ activeObject.getWidth()) ;
     }
 
 }

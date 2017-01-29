@@ -13,6 +13,10 @@ public interface MovableRepresentable extends Representable {
 
     boolean isActive();
 
-    Rectangle getRectangle();
+    void move(int speed);
+
+
+
+
 
 }

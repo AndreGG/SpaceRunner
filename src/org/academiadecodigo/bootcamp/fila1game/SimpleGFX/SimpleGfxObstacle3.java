@@ -7,7 +7,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 /**
  * Created by codecadet on 1/20/17.
  */
-public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
+public class SimpleGfxObstacle3 extends SimpleGfxGameObjects {
 
     private Rectangle sprite;
     private Picture pic;
@@ -15,11 +15,13 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     private int speed;
     private boolean active;
 
-    public SimpleGfxObstacle1(int startX, int startY) {
-        sprite = new Rectangle(startX, startY-16, 80, 80);
+    public SimpleGfxObstacle3(int startX, int startY) {
+        sprite = new Rectangle(startX,startY-76, 80, 140);
 //        sprite.setColor(Color.WHITE);
 //        sprite.fill();
-        pic = new Picture(startX, startY-16, "obstacleBox.png");
+        pic = new Picture(startX, startY-76, "backGrounds/obstacles/ObstacleX.png");
+//        pic.draw();
+
 
         startPos = startX;
 
@@ -84,11 +86,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     }
 
+
     @Override
     public boolean isActive() {
         return active;
     }
-
 
     @Override
     public void setActive(boolean active) {
@@ -100,3 +102,4 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     }
 }
+
