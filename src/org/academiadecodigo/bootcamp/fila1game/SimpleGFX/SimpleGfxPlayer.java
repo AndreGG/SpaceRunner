@@ -136,20 +136,25 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (isOnTopOfObstacle()) {
 
-            if (playerDead) {
-                playerDead = false;
-            }
-
             jumpArc = checker.distanceFromObjectOnY(this);
 
             jump();
             refreshJumps();
 
+            if (playerDead) {
+                playerDead = false;
+            }
+
         } else {
 
+/*            if (checker.xIsPassed(this)){
+                if (playerDead) {
+                    playerDead = false;
+                }
+            }*/
             jump();
-
         }
+
 
     }
 
