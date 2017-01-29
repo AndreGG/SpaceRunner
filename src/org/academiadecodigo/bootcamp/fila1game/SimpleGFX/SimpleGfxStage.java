@@ -12,7 +12,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
     private Rectangle stage;
     private Rectangle[] borders = new Rectangle[2];
-    Picture[] background = new Picture[6];
+    Picture[] background = new Picture[13];
     Picture[] floor = new Picture[13];
     Picture[] midBackGround = new Picture[13];
     Picture[] highBackGround = new Picture[13];
@@ -25,11 +25,11 @@ public class SimpleGfxStage implements MovableRepresentable {
         stage.setColor(Color.BLACK);
         stage.fill();
 
-//        // CRIAR BACKGROUND1
-//        background[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/middleground/middleground_0.png");
-//        for (int i = 1; i < background.length; i++) {
-//            background[i] = new Picture(background[i - 1].getX() + 80, stage.getY(), "backGrounds/middleground/middleground_" + i + ".png");
-//        }
+       // CRIAR BACKGROUND1
+        background[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/farbackground/fbackground_0.png");
+        for (int i = 1; i < background.length; i++) {
+            background[i] = new Picture(background[i - 1].getX() + 80, stage.getY(), "backGrounds/farbackground/fbackground_" + i + ".png");
+        }
 
         //CRIAR FLOOR
         floor[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/floor/floor_0.png");
@@ -54,9 +54,9 @@ public class SimpleGfxStage implements MovableRepresentable {
             backG.draw();
         }
 
-//        for (Picture backG : background) {
-//            backG.draw();
-//        }
+        for (Picture backG : background) {
+            backG.draw();
+        }
 
         for (Picture backG : midBackGround) {
             backG.draw();
@@ -93,7 +93,7 @@ public class SimpleGfxStage implements MovableRepresentable {
     @Override
     public void move() {
 
-       //TODO animateBackground();
+        animateBackground();
         animateFloor();
         animateMidBackground();
         animateHighBackground();
@@ -126,18 +126,18 @@ public class SimpleGfxStage implements MovableRepresentable {
         return stage.getHeight();
     }
 
-//    public void animateBackground() {
-//
-//        for (int i = 0; i < background.length; i++) {
-//            if (background[i].getX() > 11) {
-//                background[i].translate(-speed*0.7, 0);
-//            }
-//
-//            if (background[i].getX() <= 11) {
-//                background[i].translate(950, 0);
-//            }
-//        }
-//    }
+    public void animateBackground() {
+
+        for (int i = 0; i < background.length; i++) {
+            if (background[i].getX() > 11) {
+                background[i].translate(-speed*0.7, 0);
+            }
+
+            if (background[i].getX() <= 11) {
+                background[i].translate(950, 0);
+            }
+        }
+    }
 
     public void animateFloor() {
 
