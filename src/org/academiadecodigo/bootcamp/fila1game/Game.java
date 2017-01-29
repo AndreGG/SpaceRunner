@@ -2,10 +2,12 @@ package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle2;
 import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle2;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
@@ -32,7 +34,8 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects = new GameObjects[1];
+    private GameObjects[] gameObjects = new GameObjects[2];
+    private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
     private boolean gameoverPhase;
@@ -44,6 +47,7 @@ public class Game implements KeyboardHandler {
     private Stage stage;
     private Player player;
     private Obstacle1 obstacle1;
+    private CollisionChecker checker;
     private InputStream music = new FileInputStream("Resources/Music/SpaceRun.wav");
     private AudioStream gameMusic = new AudioStream(music);
     private boolean musicPlaying;
@@ -76,7 +80,12 @@ public class Game implements KeyboardHandler {
         }
 
         activeObject();
-        gameObjects[0].getObject().move();
+        checker.setActiveObject(activeObject);
+
+        for (GameObjects object: gameObjects) {
+            object.getObject().move();
+        }
+
         stage.move();
         player.move();
 
@@ -90,7 +99,9 @@ public class Game implements KeyboardHandler {
             }
         }
 
-        gameObjects[(int) Math.random() * gameObjects.length].getObject().setActive(true);
+        activeObject = gameObjects[(int) (Math.random() * gameObjects.length)];
+//        activeObject = gameObjects[1];
+        activeObject.getObject().setActive(true);
 
     }
 
@@ -128,6 +139,7 @@ public class Game implements KeyboardHandler {
 
         stage = new Stage(new SimpleGfxStage());
         gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 500));
+        gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 500));
 
         menuScreen = new Picture[4];
 
@@ -138,7 +150,7 @@ public class Game implements KeyboardHandler {
         loadingScreen[1].draw();
         loadingScreen[0].delete();
 
-        CollisionChecker checker = new CollisionChecker((Obstacle1) gameObjects[0]);
+        checker = new CollisionChecker();
         player = new Player(new SimpleGfxPlayer(70, 500, checker));
         player.setChecker(checker);
 

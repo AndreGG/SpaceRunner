@@ -2,17 +2,17 @@ package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 
 public class CollisionChecker {
 
-    private GameObjects[] objects;
-    private Obstacle1 obstacle1;
+    private GameObjects activeObject;
 
-    public CollisionChecker(/*GameObjects[] object*/ Obstacle1 obstacle1) {
-        /*objects = object;*/
-        this.obstacle1 = obstacle1;
+    public CollisionChecker() {
+    }
+
+    public void setActiveObject(GameObjects activeObject) {
+        this.activeObject = activeObject;
     }
 
     public void checkCollision(SimpleGfxPlayer player) {
@@ -25,25 +25,25 @@ public class CollisionChecker {
        // System.out.println("Distance on Y :" + distanceOnY);
 
         int playerInnerDistanceOnX = player.getWidth() / 2;
-        int objectInnerDistanceOnX = obstacle1.getWidth() / 2;
+        int objectInnerDistanceOnX = activeObject.getWidth() / 2;
         int sumOfInnerDistancesOnX = playerInnerDistanceOnX + objectInnerDistanceOnX;
 
         int playerInnerDistanceOnY = player.getHeight() / 2;
-        int objectInnerDistanceOnY = obstacle1.getHeight() / 2;
+        int objectInnerDistanceOnY = activeObject.getHeight() / 2;
         int sumOfInnerDistancesOnY = playerInnerDistanceOnY + objectInnerDistanceOnY;
 
-        boolean collision = ((((player.getX()+player.getWidth()) > obstacle1.getPosX())
-                && (player.getX() < (obstacle1.getPosX()+obstacle1.getWidth()))
+        boolean collision = ((((player.getX()+player.getWidth()) > activeObject.getPosX())
+                && (player.getX() < (activeObject.getPosX()+ activeObject.getWidth()))
                 && (distanceOnY < sumOfInnerDistancesOnY)));
 
         int playerRightX = player.getX() + player.getWidth();
         int playerDownLeftPix = player.getY() + player.getHeight();
 
-        int obstacleLeftX = obstacle1.getPosX();
-        int obstacleUpLeftPix = obstacle1.getPosY();
+        int obstacleLeftX = activeObject.getPosX();
+        int obstacleUpLeftPix = activeObject.getPosY();
 
-        boolean collision2 = ((playerRightX - obstacleLeftX) >= obstacle1.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
-                && player.getX() < obstacle1.getPosX();
+        boolean collision2 = ((playerRightX - obstacleLeftX) >= activeObject.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
+                && player.getX() < activeObject.getPosX();
 
 
 
@@ -63,7 +63,7 @@ public class CollisionChecker {
 
     private int getObjectCenterX() {
         // This is a pixel
-        return (obstacle1.getPosX() + (obstacle1.getWidth() / 2));
+        return (activeObject.getPosX() + (activeObject.getWidth() / 2));
     }
 
     private int getPlayerCenterY(SimpleGfxPlayer player) {
@@ -73,22 +73,22 @@ public class CollisionChecker {
 
     private int getObjectCenterY() {
         //this is a pixel
-        return (obstacle1.getPosY() + (obstacle1.getHeight() / 2));
+        return (activeObject.getPosY() + (activeObject.getHeight() / 2));
     }
 
     public int distanceFromObjectOnY(SimpleGfxPlayer player) {
-        return obstacle1.getPosY() - (player.getY() + player.getHeight());
+        return activeObject.getPosY() - (player.getY() + player.getHeight());
     }
 
     public boolean isOnXWithObject(SimpleGfxPlayer player){
-        return ((player.getX()+player.getWidth()) > obstacle1.getPosX())
-                && (player.getX() < (obstacle1.getPosX()+obstacle1.getWidth()));
+        return ((player.getX()+player.getWidth()) > activeObject.getPosX())
+                && (player.getX() < (activeObject.getPosX()+ activeObject.getWidth()));
     }
 
     public boolean xIsPassed(SimpleGfxPlayer player){
         System.out.println(player.getX());
-        System.out.println(obstacle1.getPosX()+obstacle1.getWidth());
-        return player.getX() >= (obstacle1.getPosX()+obstacle1.getWidth()) ;
+        System.out.println(activeObject.getPosX()+ activeObject.getWidth());
+        return player.getX() >= (activeObject.getPosX()+ activeObject.getWidth()) ;
     }
 
 }
