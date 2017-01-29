@@ -19,6 +19,9 @@ public class Obstacle1 extends GameObjects {
         sprite.move();
     }
 
+    public void show() {
+        sprite.show();
+    }
 
 
 }

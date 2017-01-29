@@ -1,5 +1,7 @@
 package org.academiadecodigo.bootcamp.fila1game.Representables;
 
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+
 /**
  * Created by codecadet on 1/20/17.
  */
@@ -11,5 +13,6 @@ public interface MovableRepresentable extends Representable {
 
     boolean isActive();
 
+    Rectangle getRectangle();
 
 }

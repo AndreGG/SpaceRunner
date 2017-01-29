@@ -46,10 +46,9 @@ public class Game implements KeyboardHandler {
     private Keyboard keyboard;
     private Stage stage;
     private Player player;
-    private Obstacle1 obstacle1;
     private CollisionChecker checker;
-    private InputStream music = new FileInputStream("Resources/Music/SpaceRun.wav");
-    private AudioStream gameMusic = new AudioStream(music);
+    private InputStream music;
+    private AudioStream gameMusic;
     private boolean musicPlaying;
     private int musicLength;
 
@@ -64,10 +63,6 @@ public class Game implements KeyboardHandler {
         keyboard = new Keyboard(this);
 
         loadResources();
-        System.out.println(menuOptions.values()[0]);
-        System.out.println(menuOptions.values()[1]);
-        System.out.println(menuOptions.values()[2]);
-        System.out.println(menuOptions.values()[3]);
 
     }
 
@@ -79,15 +74,22 @@ public class Game implements KeyboardHandler {
             music();
         }
 
+
         activeObject();
-        checker.setActiveObject(activeObject);
 
-        for (GameObjects object: gameObjects) {
-            object.getObject().move();
+        menu(currentOption);
+
+        if (!menuPhase) {
+
+            checker.setActiveObject(activeObject);
+
+            for (GameObjects object: gameObjects) {
+                object.getObject().move();
+            }
+
+            stage.move();
+            player.move();
         }
-
-        stage.move();
-        player.move();
 
     }
 
@@ -100,7 +102,6 @@ public class Game implements KeyboardHandler {
         }
 
         activeObject = gameObjects[(int) (Math.random() * gameObjects.length)];
-//        activeObject = gameObjects[1];
         activeObject.getObject().setActive(true);
 
     }
@@ -108,24 +109,54 @@ public class Game implements KeyboardHandler {
 
     public void keyboardInit() {
 
+        /**
+         * SPACE KEY
+         */
+
         KeyboardEvent chooseMenuAction = new KeyboardEvent();
         chooseMenuAction.setKey(KeyboardEvent.KEY_SPACE);
         chooseMenuAction.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(chooseMenuAction);
+
+        KeyboardEvent releaseMenuAction = new KeyboardEvent();
+        releaseMenuAction.setKey(KeyboardEvent.KEY_SPACE);
+        releaseMenuAction.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        keyboard.addEventListener(releaseMenuAction);
+
+        /**
+         * DOWN KEY
+         */
 
         KeyboardEvent down = new KeyboardEvent();
         down.setKey(KeyboardEvent.KEY_DOWN);
         down.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(down);
 
+        /**
+         * UP KEY
+         */
+
         KeyboardEvent up = new KeyboardEvent();
         up.setKey(KeyboardEvent.KEY_UP);
-        up.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        up.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(up);
+
+        /**
+         * Q KEY
+         */
+
+        KeyboardEvent quit = new KeyboardEvent();
+        quit.setKey(KeyboardEvent.KEY_Q);
+        quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(quit);
 
     }
 
     private void loadResources() throws IOException {
+
+        /**
+         * Loading screen assets
+         */
 
         loadingScreen = new Picture[4];
 
@@ -135,11 +166,20 @@ public class Game implements KeyboardHandler {
 
         loadingScreen[0].draw();
 
-        keyboardInit();
+
+        /**
+         * Sound assets
+         */
+
+        music = new FileInputStream("Resources/Music/SpaceRun.wav");
+        gameMusic = new AudioStream(music);
+
+
+        /**
+         * Gfx assets and Collision Assignment
+         */
 
         stage = new Stage(new SimpleGfxStage());
-        gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 500));
-        gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 500));
 
         menuScreen = new Picture[4];
 
@@ -151,22 +191,29 @@ public class Game implements KeyboardHandler {
         loadingScreen[0].delete();
 
         checker = new CollisionChecker();
-        player = new Player(new SimpleGfxPlayer(70, 500, checker));
+        player = new Player(new SimpleGfxPlayer(70, 480, checker));
         player.setChecker(checker);
 
+        gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 480));
+        gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 480));
+
+        /**
+         * Game variables set up and keyboard
+         */
+
         currentOption = menuOptions.START;
+        menuPhase = true;
+        musicLength = music.available();
 
         loadingScreen[2].draw();
         loadingScreen[1].delete();
 
-        stage.show();
-        player.getSprite().show();
+        keyboardInit();
+
+
 
         loadingScreen[3].draw();
 
-        musicLength = music.available();
-
-        menuPhase = true;
 
         for (Picture load : loadingScreen) {
             load.delete();
@@ -174,46 +221,63 @@ public class Game implements KeyboardHandler {
 
     }
 
+    private void navigateMenu(int x) {
+
+        menuScreen[x].draw();
+
+        for (int i = 0; i < menuScreen.length; i++) {
+            if (i == x) {
+                continue;
+            } else {
+                menuScreen[i].delete();
+            }
+        }
+
+    }
+
     private void menu(menuOptions option) {
 
-        currentOption = option;
+        int x = -1;
 
         if (menuPhase) {
 
-            menuScreen[0].draw();
-
-            switch (currentOption) {
+            switch (option) {
                 case START:
-                    menuScreen[0].draw();
-
-                    System.out.println("Option Start");
+                    x = 0;
+                    navigateMenu(x);
 
                     if (menuChoice) {
 
                         menuPhase = false;
-                        for (Picture menu : menuScreen) {
+                        playPhase = true;
+
+                        for (Picture menu: menuScreen) {
                             menu.delete();
                         }
 
+                        stage.show();
+                        player.getSprite().show();
+                        for (GameObjects object: gameObjects) {
+                            object.getObject().show();
+                        }
                     }
                     break;
                 case INSTRUCTIONS:
-                    menuScreen[1].draw();
-
-                    System.out.println("Option Instructions");
+                    x = 1;
+                    navigateMenu(x);
 
                     if (menuChoice) {
 
                     }
                     break;
                 case CREDITS:
-                    menuScreen[2].draw();
+                    x = 2;
+                    navigateMenu(x);
 
-                    System.out.println("Credits Instructions");
+                    break;
                 case EXIT:
-                    menuScreen[3].draw();
-
-                    System.out.println("Option Exit");
+                    x = 3;
+                    navigateMenu(x);
 
                     if (menuChoice) {
                         System.exit(1);
@@ -263,7 +327,45 @@ public class Game implements KeyboardHandler {
 
     }
 
-    //TODO reached end;
+    public menuOptions menuDown(menuOptions option) {
+
+        switch (option) {
+            case START:
+                currentOption = menuOptions.INSTRUCTIONS;
+                break;
+            case INSTRUCTIONS:
+                currentOption = menuOptions.CREDITS;
+                break;
+            case CREDITS:
+                currentOption = menuOptions.EXIT;
+                break;
+            case EXIT:
+                currentOption = menuOptions.START;
+                break;
+        }
+
+        return currentOption;
+    }
+
+    public menuOptions menuUp(menuOptions option) {
+
+        switch (option) {
+            case START:
+                currentOption = menuOptions.EXIT;
+                break;
+            case INSTRUCTIONS:
+                currentOption = menuOptions.START;
+                break;
+            case CREDITS:
+                currentOption = menuOptions.INSTRUCTIONS;
+                break;
+            case EXIT:
+                currentOption = menuOptions.CREDITS;
+                break;
+        }
+
+        return currentOption;
+    }
 
     private enum menuOptions {
         START,
@@ -273,21 +375,33 @@ public class Game implements KeyboardHandler {
     }
 
     @Override
-    public void keyPressed(KeyboardEvent keyPressed) {
-        switch (keyPressed.getKey()) {
+    public void keyPressed(KeyboardEvent key) {
+        switch (key.getKey()) {
             case KeyboardEvent.KEY_SPACE:
-                // TODO method(keyPressed.getKey());
+                menuChoice = true;
                 break;
             case KeyboardEvent.KEY_DOWN:
+                menuDown(currentOption);
+                System.out.println("button");
                 break;
             case KeyboardEvent.KEY_UP:
+                menuUp(currentOption);
+                System.out.println("button2");
                 break;
+            case KeyboardEvent.KEY_Q:
+                if(playPhase) {
+                    System.exit(1);
+                }
         }
     }
 
     @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
+    public void keyReleased(KeyboardEvent key) {
+        switch (key.getKey()) {
+            case KeyboardEvent.KEY_SPACE:
+                menuChoice = false;
+                break;
+        }
 
     }
 

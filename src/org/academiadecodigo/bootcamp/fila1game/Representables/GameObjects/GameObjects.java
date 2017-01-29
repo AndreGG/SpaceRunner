@@ -43,6 +43,14 @@ public abstract class GameObjects {
     }
 
     public int getSpeed() { return object.getSpeed(); }
+
+    public void show() {
+        object.show();
+    }
+
+    public void delete(){
+
+    }
     //TODO reached end
 
 

@@ -68,4 +68,9 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
         return false;
     }
 
+    @Override
+    public Rectangle getRectangle() {
+        return null;
+    }
+
 }

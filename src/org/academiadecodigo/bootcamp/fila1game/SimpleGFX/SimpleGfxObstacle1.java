@@ -9,18 +9,17 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
  */
 public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
-    private Rectangle obstacle1;
+    private Rectangle sprite;
     private Picture pic;
     private double startPos;
     private int speed;
     private boolean active;
 
     public SimpleGfxObstacle1(int startX, int startY) {
-        obstacle1 = new Rectangle(startX,startY, 64, 64);
-//        obstacle1.setColor(Color.WHITE);
-//        obstacle1.draw();
+        sprite = new Rectangle(startX,startY, 64, 64);
+//        sprite.setColor(Color.WHITE);
+//        sprite.fill();
         pic = new Picture(startX, startY, "obstacleBox.png");
-        pic.draw();
 
         startPos = startX;
 
@@ -29,7 +28,7 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     @Override
     public int getX() {
-        return obstacle1.getX();
+        return sprite.getX();
     }
 
     @Override
@@ -39,17 +38,17 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 
     @Override
     public int getY() {
-        return obstacle1.getY();
+        return sprite.getY();
     }
 
     @Override
     public int getWidth() {
-        return obstacle1.getWidth();
+        return sprite.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return obstacle1.getHeight();
+        return sprite.getHeight();
     }
 
     @Override
@@ -58,23 +57,23 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     }
 
     public void show() {
-
+        pic.draw();
     }
 
     public void hide() {
-
+        pic.delete();
     }
 
     @Override
     public void move() {
 
-        if ((obstacle1.getX() > 11) && (active == true)) {
-            obstacle1.translate(speed, 0);
+        if ((sprite.getX() > 11) && (active == true)) {
+            sprite.translate(speed, 0);
             pic.translate(speed, 0);
         }
 
-        if (obstacle1.getX() <= 11) {
-            obstacle1.translate(startPos, 0);
+        if (sprite.getX() <= 11) {
+            sprite.translate(startPos, 0);
             pic.translate(startPos, 0);
             active = false;
         }
@@ -84,6 +83,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     @Override
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return sprite;
     }
 
     @Override
