@@ -49,6 +49,14 @@ public class SimpleGfxStage implements MovableRepresentable {
             highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/highground/highground_" + i + ".png");
         }
 
+    }
+
+    /**
+     * Draws all background related assets
+     */
+
+    public void show() {
+
         for (Picture backG : highBackGround) {
             backG.draw();
         }
@@ -73,10 +81,6 @@ public class SimpleGfxStage implements MovableRepresentable {
         borders[1] = new Rectangle(stage.getWidth() - 80, stage.getY(), 100, stage.getHeight());
         borders[1].setColor(Color.BLACK);
         borders[1].fill();
-
-    }
-
-    public void show() {
 
     }
 
