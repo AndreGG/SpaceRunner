@@ -19,7 +19,6 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 //        obstacle1.setColor(Color.WHITE);
 //        obstacle1.draw();
         pic = new Picture(startX, startY, "obstacleBox.png");
-        pic.draw();
 
         startPos = startX;
 
@@ -57,11 +56,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     }
 
     public void show() {
-
+        pic.draw();
     }
 
     public void hide() {
-
+        pic.delete();
     }
 
     @Override
