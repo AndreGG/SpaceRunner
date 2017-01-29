@@ -45,6 +45,7 @@ public class Game implements KeyboardHandler {
     private AudioStream gameMusic;
     private boolean musicPlaying;
     private int musicLength;
+    private double loadingCount = 0;
 
     // TODO private ActiveBlock;
 
@@ -137,6 +138,9 @@ public class Game implements KeyboardHandler {
 
         loadingScreen[0].draw();
 
+        while (loadingCount < 99999999 * 4) {
+            loadingCount++;
+        }
 
         /**
          * Sound assets
@@ -145,7 +149,6 @@ public class Game implements KeyboardHandler {
         music = new FileInputStream("Resources/Music/SpaceRun.wav");
         gameMusic = new AudioStream(music);
 
-
         /**
          * Gfx assets and Collision Assignment
          */
@@ -153,7 +156,7 @@ public class Game implements KeyboardHandler {
         stage = new Stage(new SimpleGfxStage());
         obstacle1 = new Obstacle1(new SimpleGfxObstacle1(934, 500));
 
-        menuScreen = new Picture[4];
+        menuScreen = new Picture[5];
 
         for (int i = 0; i < menuScreen.length; i++) {
             menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
@@ -161,6 +164,10 @@ public class Game implements KeyboardHandler {
 
         loadingScreen[1].draw();
         loadingScreen[0].delete();
+
+        while (loadingCount < 99999999 * 6) {
+            loadingCount++;
+        }
 
         CollisionChecker checker = new CollisionChecker(obstacle1);
         player = new Player(new SimpleGfxPlayer(70, 500, checker));
@@ -177,15 +184,17 @@ public class Game implements KeyboardHandler {
         loadingScreen[2].draw();
         loadingScreen[1].delete();
 
+        while (loadingCount < 99999999 * 8) {
+            loadingCount++;
+        }
+
         keyboardInit();
-
-
 
         loadingScreen[3].draw();
 
-
-
-
+        while (loadingCount < 99999999 * 10) {
+            loadingCount++;
+        }
 
         for (Picture load: loadingScreen) {
             load.delete();
@@ -237,14 +246,16 @@ public class Game implements KeyboardHandler {
                     x = 1;
                     navigateMenu(x);
 
-                    if (menuChoice) {
 
-                    }
                     break;
                 case CREDITS:
                     x = 2;
                     navigateMenu(x);
 
+                    if (menuChoice) {
+                        x = 4;
+                        navigateMenu(x);
+                    }
                     break;
                 case EXIT:
                     x = 3;
@@ -275,9 +286,6 @@ public class Game implements KeyboardHandler {
         musicPlaying = true;
 
         AudioPlayer.player.start(gameMusic);
-        AudioPlayer.activeCount();
-
-        System.out.println(AudioPlayer.activeCount());
 
     }
 
@@ -353,11 +361,9 @@ public class Game implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_DOWN:
                 menuDown(currentOption);
-                System.out.println("button");
                 break;
             case KeyboardEvent.KEY_UP:
                 menuUp(currentOption);
-                System.out.println("button2");
                 break;
             case KeyboardEvent.KEY_Q:
                 if(playPhase) {
