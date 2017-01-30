@@ -20,7 +20,7 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
         sprite = new Rectangle(startX,startY-87, 80, 151);
 //        sprite.setColor(Color.WHITE);
 //        sprite.fill();
-        pic = new Picture(startX, startY-87, "backGrounds/obstacles/ObstacleZ.png");
+        pic = new Picture(startX, startY-87, "obstacles/ObstacleZ.png");
 //        pic.draw();
 
 

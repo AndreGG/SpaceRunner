@@ -1,6 +1,5 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
@@ -16,10 +15,12 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     private boolean active;
 
     public SimpleGfxObstacle1(int startX, int startY) {
+
         sprite = new Rectangle(startX, startY-16, 80, 80);
 //        sprite.setColor(Color.WHITE);
 //        sprite.fill();
-        pic = new Picture(startX, startY-16, "obstacleBox.png");
+        pic = new Picture(startX, startY-16, "obstacles/obstacleBox.png");
+
 
         startPos = startX;
 
