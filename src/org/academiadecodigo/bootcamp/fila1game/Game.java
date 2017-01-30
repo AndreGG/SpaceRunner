@@ -69,7 +69,6 @@ public class Game implements KeyboardHandler {
         menuChoice = false;
         keyboard = new Keyboard(this);
 
-
         loadResources();
 
     }
@@ -201,7 +200,7 @@ public class Game implements KeyboardHandler {
          * Sound assets
          */
 
-        music = new FileInputStream("Resources/Music/SpaceRun.wav");
+        music = new FileInputStream("Resources/Music/Fila1Theme.wav");
         gameMusic = new AudioStream(music);
 
         /**
@@ -376,7 +375,7 @@ public class Game implements KeyboardHandler {
         if (musicLength == 0) {
             music.close();
             gameMusic.close();
-            music = new FileInputStream("Resources/Music/SpaceRun.wav");
+            music = new FileInputStream("Resources/Music/Fila1Theme.wav");
             gameMusic = new AudioStream(music);
             musicPlaying = false;
             musicLength = music.available();
