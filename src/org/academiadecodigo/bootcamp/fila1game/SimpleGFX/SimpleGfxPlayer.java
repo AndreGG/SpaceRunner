@@ -99,15 +99,17 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void animateSprite() {
 
         if (!isOnFloor()) {
+
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
             spriteSheet[7].draw();
+
         }
 
         if (isOnFloor() || isOnTopOfObstacle()) {
-            spriteSheet[7].delete();
 
+            spriteSheet[7].delete();
             if (animationCount < 6) {
                 spriteSheet[1].delete();
                 spriteSheet[2].draw();
@@ -123,7 +125,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             } else if (animationCount > 24) {
                 animationCount = 0;
             }
-
         }
         animationCount++;
     }

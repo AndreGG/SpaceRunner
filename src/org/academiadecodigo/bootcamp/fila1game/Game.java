@@ -1,7 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.*;
-import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
@@ -9,8 +8,6 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
-import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
@@ -19,16 +16,12 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-import java.util.List;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 
 
 /**
@@ -40,9 +33,9 @@ public class Game implements KeyboardHandler {
     private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
-    private boolean gameoverPhase;
     private boolean menuChoice;
     private boolean gamePause;
+    private boolean gameover;
     private Picture[] loadingScreen;
     private Picture[] menuScreen;
     private Rectangle[] borders = new Rectangle[2];
@@ -65,7 +58,7 @@ public class Game implements KeyboardHandler {
 
         menuPhase = false;
         playPhase = false;
-        gameoverPhase = false;
+        gameover = false;
         menuChoice = false;
         keyboard = new Keyboard(this);
 
@@ -88,26 +81,12 @@ public class Game implements KeyboardHandler {
 
         if (!menuPhase) {
 
-            if (!gamePause) {
+            if (!gamePause || !gameover) {
 
                 checker.setActiveObject(activeObject);
 
-                if (gameSpeed > -30){
-                    gameSpeedCount++;
+                playGame();
 
-                    if (gameSpeedCount == 200){
-                        gameSpeed--;
-                        gameSpeedCount = 0;
-                    }
-                }
-
-                stage.getStage().move(gameSpeed);
-
-                for (GameObjects object: gameObjects) {
-                    object.getObject().move(gameSpeed);
-                }
-
-                player.move();
             }
         }
 
@@ -299,10 +278,12 @@ public class Game implements KeyboardHandler {
                         }
 
                         stage.show();
-                        player.getSprite().show();
+
                         for (GameObjects object: gameObjects) {
                             object.getObject().show();
                         }
+
+                        player.getSprite().show();
 
                         loadEdges();
                     }
@@ -347,6 +328,7 @@ public class Game implements KeyboardHandler {
         borders[1].setColor(Color.BLACK);
         borders[1].fill();
         borders[1].fill();
+
     }
 
     private void music() throws IOException {
@@ -463,6 +445,30 @@ public class Game implements KeyboardHandler {
 
     }
 
+    private void gameSpeed() {
+        if (gameSpeed > -30){
+            gameSpeedCount++;
+
+            if (gameSpeedCount == 200){
+                gameSpeed--;
+                gameSpeedCount = 0;
+            }
+        }
+    }
+
+    private void playGame() {
+
+        gameSpeed();
+
+        stage.getStage().move(gameSpeed);
+
+        for (GameObjects object: gameObjects) {
+            object.getObject().move(gameSpeed);
+        }
+
+        player.move();
+
+    }
 
 }
 
