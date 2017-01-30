@@ -7,20 +7,26 @@ import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
+import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
+import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
+import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-
 import java.util.List;
-
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,6 +42,7 @@ public class Game implements KeyboardHandler {
     private boolean playPhase;
     private boolean gameoverPhase;
     private boolean menuChoice;
+    private boolean gamePause;
     private Picture[] loadingScreen;
     private Picture[] menuScreen;
     private Rectangle[] borders = new Rectangle[2];
@@ -50,6 +57,7 @@ public class Game implements KeyboardHandler {
     private int musicLength;
     private int gameSpeed = -5;
     private int gameSpeedCount = 0;
+    private double loadingCount = 0;
 
     // TODO private ActiveBlock;
 
@@ -80,28 +88,30 @@ public class Game implements KeyboardHandler {
 
         if (!menuPhase) {
 
-            checker.setActiveObject(activeObject);
+            if (!gamePause) {
 
-            for (GameObjects object: gameObjects) {
-                object.getObject().move(gameSpeed);
-            }
+                checker.setActiveObject(activeObject);
 
-            if (gameSpeed > -30){
-                gameSpeedCount++;
+                if (gameSpeed > -30){
+                    gameSpeedCount++;
 
-                if (gameSpeedCount == 200){
-                    gameSpeed--;
-                    System.out.println(gameSpeed);
-                    gameSpeedCount = 0;
+                    if (gameSpeedCount == 200){
+                        gameSpeed--;
+                        gameSpeedCount = 0;
+                    }
                 }
-            }
 
-            stage.getStage().move(gameSpeed);
-            player.move();
+                stage.getStage().move(gameSpeed);
+
+                for (GameObjects object: gameObjects) {
+                    object.getObject().move(gameSpeed);
+                }
+
+                player.move();
+            }
         }
 
     }
-
 
     private void activeObject() {
         for (int i = 0; i < gameObjects.length; i++) {
@@ -114,7 +124,6 @@ public class Game implements KeyboardHandler {
         activeObject.getObject().setActive(true);
 
     }
-
 
     public void keyboardInit() {
 
@@ -159,8 +168,16 @@ public class Game implements KeyboardHandler {
         quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(quit);
 
-    }
+        /**
+         * P KEY
+         */
 
+        KeyboardEvent pause = new KeyboardEvent();
+        pause.setKey(KeyboardEvent.KEY_P);
+        pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(pause);
+
+    }
 
     private void loadResources() throws IOException {
 
@@ -176,6 +193,9 @@ public class Game implements KeyboardHandler {
 
         loadingScreen[0].draw();
 
+        while (loadingCount < 99999999 * 4) {
+            loadingCount++;
+        }
 
         /**
          * Sound assets
@@ -184,14 +204,13 @@ public class Game implements KeyboardHandler {
         music = new FileInputStream("Resources/Music/SpaceRun.wav");
         gameMusic = new AudioStream(music);
 
-
         /**
          * Gfx assets and Collision Assignment
          */
 
         stage = new Stage(new SimpleGfxStage());
 
-        menuScreen = new Picture[4];
+        menuScreen = new Picture[5];
 
         for (int i = 0; i < menuScreen.length; i++) {
             menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
@@ -200,8 +219,12 @@ public class Game implements KeyboardHandler {
         loadingScreen[1].draw();
         loadingScreen[0].delete();
 
+        while (loadingCount < 99999999 * 6) {
+            loadingCount++;
+        }
+
         checker = new CollisionChecker();
-        player = new Player(new SimpleGfxPlayer(70, 100, checker));
+        player = new Player(new SimpleGfxPlayer(70, 500, checker));
         player.setChecker(checker);
 
         gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 480));
@@ -214,26 +237,34 @@ public class Game implements KeyboardHandler {
          */
 
         currentOption = menuOptions.START;
+
         menuPhase = true;
+        gamePause = false;
+
         musicLength = music.available();
 
         loadingScreen[2].draw();
         loadingScreen[1].delete();
 
+        while (loadingCount < 99999999 * 8) {
+            loadingCount++;
+        }
+
         keyboardInit();
-
-
 
         loadingScreen[3].draw();
 
+        while (loadingCount < 99999999 * 10) {
+            loadingCount++;
+        }
 
-        for (Picture load : loadingScreen) {
+        for (Picture load: loadingScreen) {
             load.delete();
         }
 
     }
 
-    private void navigateMenu(int x) {
+    private void highlightMenuChoice(int x) {
 
         menuScreen[x].draw();
 
@@ -256,7 +287,7 @@ public class Game implements KeyboardHandler {
             switch (option) {
                 case START:
                     x = 0;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
                     if (menuChoice) {
 
@@ -278,20 +309,22 @@ public class Game implements KeyboardHandler {
                     break;
                 case INSTRUCTIONS:
                     x = 1;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
-                    if (menuChoice) {
 
-                    }
                     break;
                 case CREDITS:
                     x = 2;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
+                    if (menuChoice) {
+                        x = 4;
+                        highlightMenuChoice(x);
+                    }
                     break;
                 case EXIT:
                     x = 3;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
                     if (menuChoice) {
                         System.exit(1);
@@ -331,9 +364,6 @@ public class Game implements KeyboardHandler {
         musicPlaying = true;
 
         AudioPlayer.player.start(gameMusic);
-        AudioPlayer.activeCount();
-
-        //System.out.println(AudioPlayer.activeCount());
 
     }
 
@@ -417,6 +447,9 @@ public class Game implements KeyboardHandler {
                 if(playPhase) {
                     System.exit(1);
                 }
+                break;
+            case KeyboardEvent.KEY_P:
+                gamePause = !gamePause;
         }
     }
 
