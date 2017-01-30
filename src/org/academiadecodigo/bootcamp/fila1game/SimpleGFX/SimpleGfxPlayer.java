@@ -31,9 +31,14 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpStart = 30;
     private int animationCount = 0;
     private int doubleJump = 1;
+    private boolean jumped = false;
+    private boolean touched = false;
     private boolean playerDead;
-    private InputStream music = new FileInputStream("resources/Music/jump.wav");
-    private AudioStream jumpSound = new AudioStream(music);
+    private InputStream jump = new FileInputStream("resources/Music/jump.wav");
+    private AudioStream jumpSound = new AudioStream(jump);
+    private InputStream touch = new FileInputStream("resources/Music/stand_obstacle.wav");
+    private AudioStream touchSound = new AudioStream(touch);
+
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
@@ -83,14 +88,26 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void refreshJumps() {
 
         if (isOnFloor() || isOnTopOfObstacle()) {
+
+
             count = 0;
             jumpCounter = 2;
             jumpArc = 0;
             jumpStart = -15;
             doubleJump = 1;
+
+            if (!touched && !isOnTopOfObstacle()) {
+                try {
+                    touchSoundsStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                touched = true;
+            }
         }
 
     }
+
 
     public void show() {
         spriteSheet[0].draw();
@@ -98,14 +115,20 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
+
         if (!isOnFloor()) {
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
             spriteSheet[7].draw();
+
+            touched = false;
+
         }
 
         if (isOnFloor() || isOnTopOfObstacle()) {
+
+
             spriteSheet[7].delete();
 
             if (animationCount < 6) {
@@ -142,6 +165,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (isOnTopOfObstacle()) {
 
+
             jumpArc = checker.distanceFromObjectOnY(this);
 
             jump();
@@ -176,6 +200,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
 
     private void jump() {
+
 
         if (count < 30 && jumping && jumpCounter > 0) {
 
@@ -220,12 +245,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
 
+            if (!jumped) {
+                try {
+                    jumpSoundsStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            jumped = true;
             jumping = true;
             jumpCounter--;
 
-
         }
-
     }
 
     @Override
@@ -233,15 +264,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
-
+            jumped = false;
         }
-
-        try {
-            jumpSoundsStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /***
@@ -253,7 +277,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         for (Picture sprites : spriteSheet) {
             sprites.delete();
         }
-
     }
 
     public void setPlayerDead() {
@@ -272,9 +295,17 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void jumpSoundsStream() throws IOException {
         AudioPlayer.player.start(jumpSound);
 
-        music = new FileInputStream("resources/Music/jump.wav");
-        jumpSound = new AudioStream(music);
+        jump = new FileInputStream("resources/Music/jump.wav");
+        jumpSound = new AudioStream(jump);
     }
+
+    private void touchSoundsStream() throws IOException {
+        AudioPlayer.player.start(touchSound);
+
+        touch = new FileInputStream("resources/Music/stand_obstacle.wav");
+        touchSound = new AudioStream(touch);
+    }
+
 
     private boolean isOnFloor() {
 
