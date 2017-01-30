@@ -69,10 +69,11 @@ public class Game implements KeyboardHandler {
         menu(currentOption);
 
         if (!menuPhase) {
-            pauseGame();
-            obstacle1.move();
-            stage.move();
-            player.move();
+            if (!gamePause) {
+                obstacle1.move();
+                stage.move();
+                player.move();
+            }
         }
 
     }
@@ -289,12 +290,6 @@ public class Game implements KeyboardHandler {
             System.err.println("Error: " + message.getMessage());
         }
 
-    }
-
-    private void pauseGame () throws IOException {
-        if (playPhase && gamePause) {
-
-        }
     }
 
     private void playMusic() throws IOException {
