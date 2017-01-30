@@ -1,5 +1,7 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -14,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHandler {
 
@@ -31,7 +32,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int animationCount = 0;
     private int doubleJump = 1;
     private boolean playerDead;
-    private InputStream music = new FileInputStream("Resources/Music/jump.wav");
+    private InputStream music = new FileInputStream("resources/Music/jump.wav");
     private AudioStream jumpSound = new AudioStream(music);
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
@@ -222,7 +223,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumping = true;
             jumpCounter--;
 
-            AudioPlayer.player.start(jumpSound);
 
         }
 
@@ -234,6 +234,12 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
             jumping = false;
 
+        }
+
+        try {
+            jumpSoundsStream();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -261,6 +267,13 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private boolean isOnTopOfObstacle() {
         return (checker.distanceFromObjectOnY(this) < jumpArc) && (checker.isOnXWithObject(this) == true);
+    }
+
+    private void jumpSoundsStream() throws IOException {
+        AudioPlayer.player.start(jumpSound);
+
+        music = new FileInputStream("resources/Music/jump.wav");
+        jumpSound = new AudioStream(music);
     }
 
     private boolean isOnFloor() {
