@@ -91,6 +91,10 @@ public class SimpleGfxObstacle2 extends SimpleGfxGameObjects {
 
     }
 
+    @Override
+    public void resetPosition(int x, int y) {
+
+    }
 
 
     @Override
