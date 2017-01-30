@@ -36,7 +36,7 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects = new GameObjects[4];
+    private GameObjects[] gameObjects = new GameObjects[5];
     private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
@@ -231,6 +231,7 @@ public class Game implements KeyboardHandler {
         gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 480));
         gameObjects[2] = new Obstacle3(new SimpleGfxObstacle3(934, 480));
         gameObjects[3] = new Obstacle4(new SimpleGfxObstacle4(934, 480));
+        gameObjects[4] = new Obstacle5(new SimpleGfxObstacle5(934, 480));
 
         /**
          * Game variables set up and keyboard
