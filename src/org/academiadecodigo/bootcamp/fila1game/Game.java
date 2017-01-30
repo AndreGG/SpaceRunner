@@ -1,7 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.*;
-import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
@@ -9,8 +8,6 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
-import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
@@ -19,10 +16,6 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-import java.util.List;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -40,7 +33,7 @@ public class Game implements KeyboardHandler {
     private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
-    private boolean gameoverPhase;
+    private boolean gameOver;
     private boolean menuChoice;
     private boolean gamePause;
     private Picture[] loadingScreen;
@@ -65,7 +58,7 @@ public class Game implements KeyboardHandler {
 
         menuPhase = false;
         playPhase = false;
-        gameoverPhase = false;
+        gameOver = false;
         menuChoice = false;
         keyboard = new Keyboard(this);
 
@@ -87,15 +80,14 @@ public class Game implements KeyboardHandler {
         menu(currentOption);
 
         if (!menuPhase) {
-
-            if (!gamePause) {
+            if (!gamePause || !gameOver) {
 
                 checker.setActiveObject(activeObject);
 
-                if (gameSpeed > -30){
+                if (gameSpeed > -30) {
                     gameSpeedCount++;
 
-                    if (gameSpeedCount == 200){
+                    if (gameSpeedCount == 200) {
                         gameSpeed--;
                         gameSpeedCount = 0;
                     }
@@ -103,7 +95,7 @@ public class Game implements KeyboardHandler {
 
                 stage.getStage().move(gameSpeed);
 
-                for (GameObjects object: gameObjects) {
+                for (GameObjects object : gameObjects) {
                     object.getObject().move(gameSpeed);
                 }
 
@@ -462,6 +454,7 @@ public class Game implements KeyboardHandler {
         }
 
     }
+
 
 
 }

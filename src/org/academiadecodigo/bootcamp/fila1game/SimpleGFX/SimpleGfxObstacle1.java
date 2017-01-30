@@ -85,6 +85,11 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
     }
 
     @Override
+    public void resetPosition(int x, int y) {
+        
+    }
+
+    @Override
     public boolean isActive() {
         return active;
     }

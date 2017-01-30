@@ -8,7 +8,6 @@ public class CollisionChecker {
 
     private GameObjects activeObject;
 
-
     public CollisionChecker() {
     }
 
@@ -34,7 +33,6 @@ public class CollisionChecker {
                 && (player.getX() < (activeObject.getPosX() + activeObject.getWidth()))
                 && (distanceOnY < sumOfInnerDistancesOnY)));
 
-
         int playerRightX = player.getX() + player.getWidth();
         int playerDownLeftPix = player.getY() + player.getHeight();
 
@@ -43,7 +41,6 @@ public class CollisionChecker {
 
         boolean collision2 = ((playerRightX - obstacleLeftX) >= activeObject.getSpeed()) && playerDownLeftPix > obstacleUpLeftPix
                 && player.getX() < activeObject.getPosX();
-
 
         // Collision for damage
 

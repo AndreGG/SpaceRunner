@@ -98,6 +98,11 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
+    public void resetPosition(int x, int y) {
+
+    }
+
+    @Override
     public void setActive(boolean active) {
 
     }
