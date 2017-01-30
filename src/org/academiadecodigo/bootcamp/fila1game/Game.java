@@ -71,7 +71,6 @@ public class Game implements KeyboardHandler {
         menuChoice = false;
         keyboard = new Keyboard(this);
 
-
         loadResources();
 
     }
@@ -89,7 +88,7 @@ public class Game implements KeyboardHandler {
         menu(currentOption);
 
         if (!menuPhase) {
-            if (!gamePause || !gameOver) {
+            if (!gamePause) {
 
                 trackHighScore();
                 showHighScore();
