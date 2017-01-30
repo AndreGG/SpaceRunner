@@ -19,4 +19,6 @@ public interface Representable {
 
     void hide();
 
+    int getSpeed();
+
 }

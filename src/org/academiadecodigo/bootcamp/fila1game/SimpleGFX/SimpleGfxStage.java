@@ -11,13 +11,12 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class SimpleGfxStage implements MovableRepresentable {
 
     private Rectangle stage;
-    private Rectangle[] borders = new Rectangle[2];
-    Picture[] background = new Picture[6];
+    Picture[] background = new Picture[13];
     Picture[] floor = new Picture[13];
-    Picture[] midBackGround = new Picture[3];
+    Picture[] midBackGround = new Picture[13];
     Picture[] highBackGround = new Picture[13];
 
-    private int speed = 1;
+    private int speed = -1;
 
     public SimpleGfxStage() {
 
@@ -25,29 +24,37 @@ public class SimpleGfxStage implements MovableRepresentable {
         stage.setColor(Color.BLACK);
         stage.fill();
 
-        // CRIAR BACKGROUND1
-        background[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/buildings/buildings_0.png");
+       // CRIAR BACKGROUND1
+        background[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/farbackground/fbackground_0.png");
         for (int i = 1; i < background.length; i++) {
-            background[i] = new Picture(background[i - 1].getX() + 80, stage.getY(), "backGrounds/buildings/buildings_" + i + ".png");
+            background[i] = new Picture(background[i - 1].getX() + 80, stage.getY(), "backGrounds/farbackground/fbackground_" + i + ".png");
         }
 
         //CRIAR FLOOR
-        floor[0] = new Picture(stage.getX(), stage.getHeight()-30, "backGrounds/floor/floor_1.png");
+        floor[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/floor/floor_0.png");
         for (int i = 1; i < floor.length; i++) {
-            floor[i] = new Picture(floor[i - 1].getX() + 80, stage.getHeight()-30, "backGrounds/floor/floor_1.png");
+            floor[i] = new Picture(floor[i - 1].getX() + 80, stage.getY(), "backGrounds/floor/floor_" + i + ".png");
         }
 
         //CRIAR MIDBACKGROUND
-        midBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/pedrinhas/nuvens_0.png");
+        midBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/middleground/middleground_0.png");
         for (int i = 1; i < midBackGround.length; i++) {
-            midBackGround[i] = new Picture(midBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/pedrinhas/nuvens_" + i + ".png");
+            midBackGround[i] = new Picture(midBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/middleground/middleground_" + i + ".png");
         }
 
         //CRIAR HIGHBACKGROUND
-        highBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/background/background_0.png");
+        highBackGround[0] = new Picture(stage.getX(), stage.getY(), "backGrounds/highground/highground_0.png");
         for (int i = 1; i < highBackGround.length; i++) {
-            highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 79, stage.getY(), "backGrounds/background/background_" + i + ".png");
+            highBackGround[i] = new Picture(highBackGround[i - 1].getX() + 80, stage.getY(), "backGrounds/highground/highground_" + i + ".png");
         }
+
+    }
+
+    /**
+     * Draws all background related assets
+     */
+
+    public void show() {
 
         for (Picture backG : highBackGround) {
             backG.draw();
@@ -65,17 +72,7 @@ public class SimpleGfxStage implements MovableRepresentable {
             backG.draw();
         }
 
-        // BORDAS PRETAS AQUI PARA SEREM CRIADAS DEPOIS
-        borders[0] = new Rectangle(stage.getX(), stage.getY(), 80, stage.getHeight());
-        borders[0].setColor(Color.BLACK);
-        borders[0].fill();
 
-        borders[1] = new Rectangle(stage.getWidth() - 54, stage.getY(), 90, stage.getHeight());
-        borders[1].setColor(Color.BLACK);
-        borders[1].fill();
-    }
-
-    public void show() {
 
     }
 
@@ -84,12 +81,37 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     @Override
-    public void move() {
+    public int getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public void move(int speed) {
+
+        this.speed = speed/5;
+
         animateBackground();
         animateFloor();
         animateMidBackground();
         animateHighBackground();
+
     }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void move() {
+
+    }
+
 
 
     @Override
@@ -121,7 +143,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < background.length; i++) {
             if (background[i].getX() > 11) {
-                background[i].translate(-speed*0.7, 0);
+                background[i].translate(speed*0.7, 0);
             }
 
             if (background[i].getX() <= 11) {
@@ -134,7 +156,7 @@ public class SimpleGfxStage implements MovableRepresentable {
 
         for (int i = 0; i < floor.length; i++) {
             if (floor[i].getX() > 11) {
-                floor[i].translate(-speed*5, 0);
+                floor[i].translate(speed*5, 0);
             }
 
             if (floor[i].getX() <= 11) {
@@ -144,9 +166,10 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     private void animateMidBackground() {
+
         for (int i = 0; i < midBackGround.length; i++) {
             if (midBackGround[i].getX() > 11) {
-                midBackGround[i].translate(-speed, 0);
+                midBackGround[i].translate(speed, 0);
             }
 
             if (midBackGround[i].getX() <= 11) {
@@ -156,9 +179,10 @@ public class SimpleGfxStage implements MovableRepresentable {
     }
 
     private void animateHighBackground() {
+
         for (int i = 0; i < highBackGround.length; i++) {
             if (highBackGround[i].getX() > 11) {
-                highBackGround[i].translate(-speed*0.2, 0);
+                highBackGround[i].translate(speed*0.2, 0);
             }
 
             if (highBackGround[i].getX() <= 11) {
