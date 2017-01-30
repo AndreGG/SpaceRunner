@@ -58,4 +58,20 @@ public class SimpleGfxPickup extends SimpleGfxGameObjects {
         return;
     }
 
+    @Override
+    public void move(int speed) {
+
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+
 }

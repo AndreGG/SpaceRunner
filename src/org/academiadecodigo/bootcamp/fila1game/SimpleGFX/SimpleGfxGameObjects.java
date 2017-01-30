@@ -8,5 +8,4 @@ import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentab
 public abstract class SimpleGfxGameObjects implements MovableRepresentable {
 
 
-
 }

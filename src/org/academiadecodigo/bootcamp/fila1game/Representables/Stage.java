@@ -16,7 +16,7 @@ public class Stage {
     }
 
     public void show() {
-
+        stage.show();
     }
 
     public void move() {

@@ -14,6 +14,7 @@ public abstract class GameObjects {
     private int speed;
     private int width;
     private int height;
+    private boolean active;
 
 
 
@@ -46,6 +47,22 @@ public abstract class GameObjects {
     }
 
     public int getSpeed() { return object.getSpeed(); }
+
+    public void show() {
+        object.show();
+    }
+
+    public void delete(){
+
+    }
     //TODO reached end
 
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
