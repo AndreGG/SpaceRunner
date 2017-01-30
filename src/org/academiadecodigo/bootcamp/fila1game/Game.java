@@ -2,24 +2,20 @@ package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxObstacle1;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxPlayer;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.SimpleGfxStage;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-import java.util.List;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,6 +30,7 @@ public class Game implements KeyboardHandler {
     private boolean playPhase;
     private boolean gameoverPhase;
     private boolean menuChoice;
+    private boolean gamePause;
     private Picture[] loadingScreen;
     private Picture[] menuScreen;
     private menuOptions currentOption;
@@ -72,6 +69,7 @@ public class Game implements KeyboardHandler {
         menu(currentOption);
 
         if (!menuPhase) {
+            pauseGame();
             obstacle1.move();
             stage.move();
             player.move();
@@ -121,6 +119,15 @@ public class Game implements KeyboardHandler {
         quit.setKey(KeyboardEvent.KEY_Q);
         quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(quit);
+
+        /**
+         * P KEY
+         */
+
+        KeyboardEvent pause = new KeyboardEvent();
+        pause.setKey(KeyboardEvent.KEY_P);
+        pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(pause);
 
     }
 
@@ -178,7 +185,10 @@ public class Game implements KeyboardHandler {
          */
 
         currentOption = menuOptions.START;
+
         menuPhase = true;
+        gamePause = false;
+
         musicLength = music.available();
 
         loadingScreen[2].draw();
@@ -202,7 +212,7 @@ public class Game implements KeyboardHandler {
 
     }
 
-    private void navigateMenu(int x) {
+    private void highlightMenuChoice(int x) {
 
         menuScreen[x].draw();
 
@@ -225,7 +235,7 @@ public class Game implements KeyboardHandler {
             switch (option) {
                 case START:
                     x = 0;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
                     if (menuChoice) {
 
@@ -244,22 +254,22 @@ public class Game implements KeyboardHandler {
                     break;
                 case INSTRUCTIONS:
                     x = 1;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
 
                     break;
                 case CREDITS:
                     x = 2;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
                     if (menuChoice) {
                         x = 4;
-                        navigateMenu(x);
+                        highlightMenuChoice(x);
                     }
                     break;
                 case EXIT:
                     x = 3;
-                    navigateMenu(x);
+                    highlightMenuChoice(x);
 
                     if (menuChoice) {
                         System.exit(1);
@@ -279,6 +289,12 @@ public class Game implements KeyboardHandler {
             System.err.println("Error: " + message.getMessage());
         }
 
+    }
+
+    private void pauseGame () throws IOException {
+        if (playPhase && gamePause) {
+
+        }
     }
 
     private void playMusic() throws IOException {
@@ -369,6 +385,9 @@ public class Game implements KeyboardHandler {
                 if(playPhase) {
                     System.exit(1);
                 }
+                break;
+            case KeyboardEvent.KEY_P:
+                gamePause = !gamePause;
         }
     }
 
