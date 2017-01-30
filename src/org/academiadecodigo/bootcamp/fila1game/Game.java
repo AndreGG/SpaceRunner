@@ -19,7 +19,10 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
+import java.lang.reflect.Array;
 import java.util.List;
+
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.audio.ContinuousAudioDataStream;
@@ -45,6 +48,7 @@ public class Game implements KeyboardHandler {
     private boolean gamePause;
     private Picture[] loadingScreen;
     private Picture[] menuScreen;
+    private Picture[][] highscoresNumbers = new Picture[5][10];
     private Rectangle[] borders = new Rectangle[2];
     private menuOptions currentOption;
     private Keyboard keyboard;
@@ -58,6 +62,9 @@ public class Game implements KeyboardHandler {
     private int gameSpeed = -5;
     private int gameSpeedCount = 0;
     private double loadingCount = 0;
+    private Integer highscore = 0;
+    private int highscoreCounter = 0;
+    String score = "00000";
 
     // TODO private ActiveBlock;
 
@@ -90,12 +97,15 @@ public class Game implements KeyboardHandler {
 
             if (!gamePause) {
 
+                trackHighScore();
+                showHighScore();
+
                 checker.setActiveObject(activeObject);
 
-                if (gameSpeed > -30){
+                if (gameSpeed > -30) {
                     gameSpeedCount++;
 
-                    if (gameSpeedCount == 200){
+                    if (gameSpeedCount == 200) {
                         gameSpeed--;
                         gameSpeedCount = 0;
                     }
@@ -103,7 +113,7 @@ public class Game implements KeyboardHandler {
 
                 stage.getStage().move(gameSpeed);
 
-                for (GameObjects object: gameObjects) {
+                for (GameObjects object : gameObjects) {
                     object.getObject().move(gameSpeed);
                 }
 
@@ -210,6 +220,14 @@ public class Game implements KeyboardHandler {
 
         stage = new Stage(new SimpleGfxStage());
 
+
+        for (int i = 0; i < highscoresNumbers.length; i++) {
+            for (int j = 0; j < highscoresNumbers[i].length; j++) {
+                highscoresNumbers[i][j] = new Picture(875, 30, "/highscores/" + j + ".png");
+            }
+        }
+
+
         menuScreen = new Picture[5];
 
         for (int i = 0; i < menuScreen.length; i++) {
@@ -259,7 +277,7 @@ public class Game implements KeyboardHandler {
             loadingCount++;
         }
 
-        for (Picture load: loadingScreen) {
+        for (Picture load : loadingScreen) {
             load.delete();
         }
 
@@ -295,14 +313,21 @@ public class Game implements KeyboardHandler {
                         menuPhase = false;
                         playPhase = true;
 
-                        for (Picture menu: menuScreen) {
+                        for (Picture menu : menuScreen) {
                             menu.delete();
                         }
 
                         stage.show();
                         player.getSprite().show();
-                        for (GameObjects object: gameObjects) {
+                        for (GameObjects object : gameObjects) {
                             object.getObject().show();
+                        }
+
+
+                        for (int i = 0; i < highscoresNumbers.length; i++) {
+                            for (int j = 0; j < highscoresNumbers[i].length; j++) {
+                                highscoresNumbers[i][j].translate(-40 * i, 0);
+                            }
                         }
 
                         loadEdges();
@@ -445,7 +470,7 @@ public class Game implements KeyboardHandler {
                 menuUp(currentOption);
                 break;
             case KeyboardEvent.KEY_Q:
-                if(playPhase) {
+                if (playPhase) {
                     System.exit(1);
                 }
                 break;
@@ -464,7 +489,131 @@ public class Game implements KeyboardHandler {
 
     }
 
+    private void trackHighScore() {
+
+        highscoreCounter++;
+
+        if (highscoreCounter == 10) {
+            highscore += 100;
+            highscoreCounter = 0;
+        }
+    }
+
+    private void showHighScore() {
+
+        score = highscore.toString();
+
+        int k = 0;
+
+        for (int j = score.length() - 1; j > -1; j--) {
+            int character1 = Character.getNumericValue(score.charAt(j));
+
+            switch (character1) {
+
+                case 1:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 5:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 6:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 7:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 8:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 9:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+                case 0:
+                    for (int i = 0; i < highscoresNumbers[k].length; i++) {
+                        if (i == character1) {
+                            highscoresNumbers[k][i].draw();
+                            continue;
+                        }
+                        highscoresNumbers[k][i].delete();
+                    }
+                    break;
+
+
+            }
+            k++;
+            if (k == 5) {
+                k = 0;
+            }
+
+        }
+    }
 
 }
+
+
+
 
 
