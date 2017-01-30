@@ -1,9 +1,6 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
-import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.GameObjects;
-import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle1;
-import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle2;
-import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.Obstacle3;
+import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.*;
 import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
@@ -33,7 +30,7 @@ import java.io.InputStream;
  */
 public class Game implements KeyboardHandler {
 
-    private GameObjects[] gameObjects = new GameObjects[3];
+    private GameObjects[] gameObjects = new GameObjects[4];
     private GameObjects activeObject;
     private boolean menuPhase;
     private boolean playPhase;
@@ -209,6 +206,7 @@ public class Game implements KeyboardHandler {
         gameObjects[0] = new Obstacle1(new SimpleGfxObstacle1(934, 480));
         gameObjects[1] = new Obstacle2(new SimpleGfxObstacle2(934, 480));
         gameObjects[2] = new Obstacle3(new SimpleGfxObstacle3(934, 480));
+        gameObjects[3] = new Obstacle4(new SimpleGfxObstacle4(934, 480));
 
         /**
          * Game variables set up and keyboard
