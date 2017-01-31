@@ -484,11 +484,6 @@ public class Game implements KeyboardHandler {
                 gamePause = !gamePause;
                 break;
             case KeyboardEvent.KEY_R:
-                    try {
-                        gameRestart();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 break;
         }
     }
