@@ -26,11 +26,15 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpArc = 0;
     private int jumpStart = 30;
     private int animationCount = 0;
-    private boolean playerDead;
-    private InputStream music = new FileInputStream("resources/Music/jump.wav");
-    private AudioStream jumpSound = new AudioStream(music);
     private int startingPosX;
     private int startingPosY;
+    private boolean jumped = false;
+    private boolean touched = false;
+    private boolean playerDead;
+    private InputStream jump = new FileInputStream("resources/Music/jump.wav");
+    private AudioStream jumpSound = new AudioStream(jump);
+    private InputStream touch = new FileInputStream("resources/Music/stand_obstacle.wav");
+    private AudioStream touchSound = new AudioStream(touch);
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
@@ -83,10 +87,20 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void refreshJumps() {
 
         if (isOnFloor() || isOnTopOfObstacle()) {
+
             count = 0;
             jumpCounter = 2;
             jumpArc = 0;
             jumpStart = -15;
+
+            if (!touched && !isOnTopOfObstacle()) {
+                try {
+                    touchSoundsStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                touched = true;
+            }
         }
 
     }
@@ -97,7 +111,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
-
         if (playerDead) {
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
@@ -105,34 +118,37 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             spriteSheet[9].draw();
 
         } else {
+
             if (!isOnFloor()) {
+
                 for (Picture sprite : spriteSheet) {
                     sprite.delete();
                 }
                 spriteSheet[7].draw();
-            }
+                touched = false;
 
-            if (isOnFloor() || isOnTopOfObstacle()) {
-                spriteSheet[7].delete();
+                if (isOnFloor() || isOnTopOfObstacle()) {
+                    spriteSheet[7].delete();
 
-                if (animationCount < 6) {
-                    spriteSheet[1].delete();
-                    spriteSheet[2].draw();
-                } else if (animationCount < 12) {
-                    spriteSheet[2].delete();
-                    spriteSheet[3].draw();
-                } else if (animationCount < 18) {
-                    spriteSheet[3].delete();
-                    spriteSheet[2].draw();
-                } else if (animationCount < 24) {
-                    spriteSheet[2].delete();
-                    spriteSheet[1].draw();
-                } else if (animationCount > 24) {
-                    animationCount = 0;
+                    if (animationCount < 6) {
+                        spriteSheet[1].delete();
+                        spriteSheet[2].draw();
+                    } else if (animationCount < 12) {
+                        spriteSheet[2].delete();
+                        spriteSheet[3].draw();
+                    } else if (animationCount < 18) {
+                        spriteSheet[3].delete();
+                        spriteSheet[2].draw();
+                    } else if (animationCount < 24) {
+                        spriteSheet[2].delete();
+                        spriteSheet[1].draw();
+                    } else if (animationCount > 24) {
+                        animationCount = 0;
+                    }
+
                 }
-
+                animationCount++;
             }
-            animationCount++;
         }
     }
 
@@ -160,10 +176,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             }
 
         } else {
-
             jump();
         }
-
 
     }
 
@@ -219,29 +233,31 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     @Override
-    public void keyPressed(KeyboardEvent keyboardEvent) {
+    public void keyPressed(KeyboardEvent key) {
 
-        if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
+        if (key.getKey() == KeyboardEvent.KEY_SPACE) {
+
+            if (!jumped) {
+                try {
+                    jumpSoundsStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            jumped = true;
             jumping = true;
             jumpCounter--;
-        }
 
+        }
     }
 
     @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
+    public void keyReleased(KeyboardEvent key) {
 
-        if (keyboardEvent.getKey() == keyboardEvent.KEY_SPACE) {
+        if (key.getKey() == KeyboardEvent.KEY_SPACE) {
             jumping = false;
-
+            jumped = false;
         }
-
-        try {
-            jumpSoundsStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /***
@@ -253,7 +269,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         for (Picture sprites : spriteSheet) {
             sprites.delete();
         }
-
     }
 
     public void setPlayerDead() {
@@ -273,9 +288,17 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private void jumpSoundsStream() throws IOException {
         AudioPlayer.player.start(jumpSound);
 
-        music = new FileInputStream("resources/Music/jump.wav");
-        jumpSound = new AudioStream(music);
+        jump = new FileInputStream("resources/Music/jump.wav");
+        jumpSound = new AudioStream(jump);
     }
+
+    private void touchSoundsStream() throws IOException {
+        AudioPlayer.player.start(touchSound);
+
+        touch = new FileInputStream("resources/Music/stand_obstacle.wav");
+        touchSound = new AudioStream(touch);
+    }
+
 
     private boolean isOnFloor() {
         return hitbox.getY() >= 480;
