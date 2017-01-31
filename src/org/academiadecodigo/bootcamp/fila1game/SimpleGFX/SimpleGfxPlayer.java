@@ -126,30 +126,31 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
                 }
                 spriteSheet[7].draw();
                 touched = false;
-
-                if (isOnFloor() || isOnTopOfObstacle()) {
-                    spriteSheet[7].delete();
-
-                    if (animationCount < 6) {
-                        spriteSheet[1].delete();
-                        spriteSheet[2].draw();
-                    } else if (animationCount < 12) {
-                        spriteSheet[2].delete();
-                        spriteSheet[3].draw();
-                    } else if (animationCount < 18) {
-                        spriteSheet[3].delete();
-                        spriteSheet[2].draw();
-                    } else if (animationCount < 24) {
-                        spriteSheet[2].delete();
-                        spriteSheet[1].draw();
-                    } else if (animationCount > 24) {
-                        animationCount = 0;
-                    }
-
-                }
-                animationCount++;
             }
+
+            if (isOnFloor() || isOnTopOfObstacle()) {
+                spriteSheet[7].delete();
+
+                if (animationCount < 6) {
+                    spriteSheet[1].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 12) {
+                    spriteSheet[2].delete();
+                    spriteSheet[3].draw();
+                } else if (animationCount < 18) {
+                    spriteSheet[3].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 24) {
+                    spriteSheet[2].delete();
+                    spriteSheet[1].draw();
+                } else if (animationCount > 24) {
+                    animationCount = 0;
+                }
+
+            }
+            animationCount++;
         }
+
     }
 
     @Override
