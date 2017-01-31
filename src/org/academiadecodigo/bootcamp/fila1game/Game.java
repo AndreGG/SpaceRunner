@@ -74,8 +74,6 @@ public class Game implements KeyboardHandler {
 
         loadResources();
 
-        simplePlayer = (SimpleGfxPlayer) player.getSprite();
-
     }
 
     public void start() throws IOException {
@@ -92,8 +90,9 @@ public class Game implements KeyboardHandler {
 
         if (!menuPhase) {
             if (!simplePlayer.isPlayerDead()) {
+                menuScreen[6].delete();
                 if (!gamePause) {
-
+                    menuScreen[7].delete();
                     trackHighScore();
                     showHighScore();
 
@@ -101,7 +100,12 @@ public class Game implements KeyboardHandler {
 
                     playGame();
 
+                } else {
+                    menuScreen[7].draw();
                 }
+            } else {
+                menuScreen[6].draw();
+
             }
         }
 
@@ -171,6 +175,15 @@ public class Game implements KeyboardHandler {
         pause.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(pause);
 
+        /** R KEY
+         *
+         */
+
+        KeyboardEvent restart = new KeyboardEvent();
+        restart.setKey(KeyboardEvent.KEY_R);
+        restart.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(restart);
+
     }
 
     private void loadResources() throws IOException {
@@ -212,7 +225,7 @@ public class Game implements KeyboardHandler {
         }
 
 
-        menuScreen = new Picture[6];
+        menuScreen = new Picture[8];
 
         for (int i = 0; i < menuScreen.length; i++) {
             menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
@@ -264,6 +277,8 @@ public class Game implements KeyboardHandler {
         for (Picture load : loadingScreen) {
             load.delete();
         }
+
+        simplePlayer = (SimpleGfxPlayer) player.getSprite();
 
     }
 
@@ -467,6 +482,14 @@ public class Game implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_P:
                 gamePause = !gamePause;
+                break;
+            case KeyboardEvent.KEY_R:
+                    try {
+                        gameRestart();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                break;
         }
     }
 
@@ -625,6 +648,17 @@ public class Game implements KeyboardHandler {
             }
 
         }
+    }
+
+    public void gameRestart() throws IOException {
+        if (simplePlayer.isPlayerDead()) {
+            playPhase = false;
+            gameOver = false;
+            menuChoice = false;
+            simplePlayer.setAsAlive();
+            loadResources();
+        }
+
     }
 
 }

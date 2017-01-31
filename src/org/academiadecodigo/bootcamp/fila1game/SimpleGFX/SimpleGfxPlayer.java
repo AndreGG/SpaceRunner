@@ -356,4 +356,8 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             }
         }
     }
+
+    public void setAsAlive() {
+        playerDead = false;
+    }
 }
