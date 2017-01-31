@@ -1,9 +1,9 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
 /**
- * Created by codecadet on 1/27/17.
+ * Created by codecadet on 1/30/17.
  */
-public class TesterClass {
+public class HighScores {
 
 
 

@@ -1,7 +1,5 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -11,9 +9,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,14 +26,18 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private int jumpArc = 0;
     private int jumpStart = 30;
     private int animationCount = 0;
-    private int doubleJump = 1;
     private boolean playerDead;
     private InputStream music = new FileInputStream("resources/Music/jump.wav");
     private AudioStream jumpSound = new AudioStream(music);
+    private int startingPosX;
+    private int startingPosY;
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
         this.checker = checker;
+
+        startingPosX = startX;
+        startingPosY = startY;
 
         hitbox = new Rectangle(startX + 60, startY, 64, 64);
 
@@ -87,7 +87,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
             jumpCounter = 2;
             jumpArc = 0;
             jumpStart = -15;
-            doubleJump = 1;
         }
 
     }
@@ -98,35 +97,43 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
-        if (!isOnFloor()) {
 
+        if (playerDead) {
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
-            spriteSheet[7].draw();
+            spriteSheet[9].draw();
 
-        }
-
-        if (isOnFloor() || isOnTopOfObstacle()) {
-
-            spriteSheet[7].delete();
-            if (animationCount < 6) {
-                spriteSheet[1].delete();
-                spriteSheet[2].draw();
-            } else if (animationCount < 12) {
-                spriteSheet[2].delete();
-                spriteSheet[3].draw();
-            } else if (animationCount < 18) {
-                spriteSheet[3].delete();
-                spriteSheet[2].draw();
-            } else if (animationCount < 24) {
-                spriteSheet[2].delete();
-                spriteSheet[1].draw();
-            } else if (animationCount > 24) {
-                animationCount = 0;
+        } else {
+            if (!isOnFloor()) {
+                for (Picture sprite : spriteSheet) {
+                    sprite.delete();
+                }
+                spriteSheet[7].draw();
             }
+
+            if (isOnFloor() || isOnTopOfObstacle()) {
+                spriteSheet[7].delete();
+
+                if (animationCount < 6) {
+                    spriteSheet[1].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 12) {
+                    spriteSheet[2].delete();
+                    spriteSheet[3].draw();
+                } else if (animationCount < 18) {
+                    spriteSheet[3].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 24) {
+                    spriteSheet[2].delete();
+                    spriteSheet[1].draw();
+                } else if (animationCount > 24) {
+                    animationCount = 0;
+                }
+
+            }
+            animationCount++;
         }
-        animationCount++;
     }
 
     @Override
@@ -166,6 +173,11 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     @Override
+    public void resetPosition(int x, int y) {
+       hitbox.translate(startingPosX - hitbox.getX(), startingPosY - hitbox.getY());
+    }
+
+    @Override
     public void setActive(boolean active) {
 
     }
@@ -180,11 +192,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
         if (count < 30 && jumping && jumpCounter > 0) {
 
-            hitbox.translate(0, jumpStart);
-
-            for (Picture sprite : spriteSheet) {
-                sprite.translate(0, jumpStart);
-            }
+            moveHitboxAndSprite(0, jumpStart);
 
             jumpStart++;
             count++;
@@ -194,7 +202,6 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
                 count = 0;
                 jumpStart = -15;
                 jumpArc = 0;
-                --doubleJump;
 
             }
 
@@ -206,25 +213,17 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
                 jumpArc = 480 - getY();
             }
 
-            hitbox.translate(0, jumpArc);
-
-            for (Picture sprite : spriteSheet) {
-                sprite.translate(0, jumpArc);
-            }
+            moveHitboxAndSprite(0, jumpArc);
 
         }
     }
-
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
         if (keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE) {
-
             jumping = true;
             jumpCounter--;
-
-
         }
 
     }
@@ -259,6 +258,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     public void setPlayerDead() {
         playerDead = true;
+
     }
 
     /***
@@ -278,9 +278,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private boolean isOnFloor() {
-
         return hitbox.getY() >= 480;
-
     }
 
     @Override
@@ -312,4 +310,26 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         return this.speed;
     }
 
+    public boolean isPlayerDead() {
+        return playerDead;
+    }
+
+    public void moveHitboxAndSprite(int x, int y) {
+
+        alignSpriteWithHitbox();
+        hitbox.translate(x, y);
+        for (Picture sprite: spriteSheet) {
+            sprite.translate(x, y);
+        }
+
+    }
+
+    public void alignSpriteWithHitbox() {
+
+        if (hitbox.getY() != spriteSheet[0].getY() && hitbox.getX() != spriteSheet[0].getX()) {
+            for (Picture sprite: spriteSheet) {
+                sprite.translate(hitbox.getX() - sprite.getX(), hitbox.getY() - sprite.getY());
+            }
+        }
+    }
 }

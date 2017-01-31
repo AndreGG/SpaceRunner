@@ -14,21 +14,22 @@ public class Player {
     private CollisionChecker checker;
     private int width;
     private int height;
-
-    public MovableRepresentable getSprite() {
-        return sprite;
-    }
+    private int startingPosX;
+    private int startingPosY;
 
     public Player (MovableRepresentable sprite) {
 
         this.sprite = sprite;
+        startingPosX = sprite.getX();
+        startingPosY = sprite.getY();
+
     }
 
     public void move() {
             sprite.move();
     }
 
-    private boolean isPlayerDead() {
+    public boolean isPlayerDead() {
         return playerDead;
     }
 
@@ -48,6 +49,10 @@ public class Player {
         this.checker = checker;
     }
 
+    public void resetPosition() {
+        sprite.resetPosition(startingPosX - sprite.getX(), startingPosY - sprite.getY());
+    }
+
     public int getWidth() {
         return sprite.getWidth();
     }
@@ -56,4 +61,7 @@ public class Player {
         return sprite.getHeight();
     }
 
+    public MovableRepresentable getSprite() {
+        return sprite;
+    }
 }

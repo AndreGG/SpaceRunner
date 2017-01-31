@@ -15,8 +15,6 @@ public interface MovableRepresentable extends Representable {
 
     void move(int speed);
 
-
-
-
+    void resetPosition(int x, int y);
 
 }
