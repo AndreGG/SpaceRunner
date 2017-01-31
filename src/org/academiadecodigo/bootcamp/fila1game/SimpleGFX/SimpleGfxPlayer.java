@@ -97,34 +97,42 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
 
     private void animateSprite() {
 
-        if (!isOnFloor()) {
+        if (playerDead) {
             for (Picture sprite : spriteSheet) {
                 sprite.delete();
             }
-            spriteSheet[7].draw();
-        }
+            spriteSheet[9].draw();
 
-        if (isOnFloor() || isOnTopOfObstacle()) {
-            spriteSheet[7].delete();
-
-            if (animationCount < 6) {
-                spriteSheet[1].delete();
-                spriteSheet[2].draw();
-            } else if (animationCount < 12) {
-                spriteSheet[2].delete();
-                spriteSheet[3].draw();
-            } else if (animationCount < 18) {
-                spriteSheet[3].delete();
-                spriteSheet[2].draw();
-            } else if (animationCount < 24) {
-                spriteSheet[2].delete();
-                spriteSheet[1].draw();
-            } else if (animationCount > 24) {
-                animationCount = 0;
+        } else {
+            if (!isOnFloor()) {
+                for (Picture sprite : spriteSheet) {
+                    sprite.delete();
+                }
+                spriteSheet[7].draw();
             }
 
+            if (isOnFloor() || isOnTopOfObstacle()) {
+                spriteSheet[7].delete();
+
+                if (animationCount < 6) {
+                    spriteSheet[1].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 12) {
+                    spriteSheet[2].delete();
+                    spriteSheet[3].draw();
+                } else if (animationCount < 18) {
+                    spriteSheet[3].delete();
+                    spriteSheet[2].draw();
+                } else if (animationCount < 24) {
+                    spriteSheet[2].delete();
+                    spriteSheet[1].draw();
+                } else if (animationCount > 24) {
+                    animationCount = 0;
+                }
+
+            }
+            animationCount++;
         }
-        animationCount++;
     }
 
     @Override
@@ -301,7 +309,9 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
         return this.speed;
     }
 
-
+    public boolean isPlayerDead() {
+        return playerDead;
+    }
 
     public void moveHitboxAndSprite(int x, int y) {
 

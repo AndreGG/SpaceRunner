@@ -1,6 +1,7 @@
 package org.academiadecodigo.bootcamp.fila1game;
 
 import org.academiadecodigo.bootcamp.fila1game.Representables.GameObjects.*;
+import org.academiadecodigo.bootcamp.fila1game.Representables.MovableRepresentable;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Player;
 import org.academiadecodigo.bootcamp.fila1game.Representables.Stage;
 import org.academiadecodigo.bootcamp.fila1game.SimpleGFX.*;
@@ -60,6 +61,7 @@ public class Game implements KeyboardHandler {
     private Integer highscore = 0;
     private int highscoreCounter = 0;
     String score = "00000";
+    private SimpleGfxPlayer simplePlayer;
 
     // TODO private ActiveBlock;
 
@@ -72,6 +74,8 @@ public class Game implements KeyboardHandler {
         keyboard = new Keyboard(this);
 
         loadResources();
+
+        simplePlayer = (SimpleGfxPlayer) player.getSprite();
 
     }
 
@@ -88,29 +92,31 @@ public class Game implements KeyboardHandler {
         menu(currentOption);
 
         if (!menuPhase) {
-            if (!gamePause) {
+            if (!simplePlayer.isPlayerDead()) {
+                if (!gamePause) {
 
-                trackHighScore();
-                showHighScore();
+                    trackHighScore();
+                    showHighScore();
 
-                checker.setActiveObject(activeObject);
+                    checker.setActiveObject(activeObject);
 
-                if (gameSpeed > -30) {
-                    gameSpeedCount++;
+                    if (gameSpeed > -30) {
+                        gameSpeedCount++;
 
-                    if (gameSpeedCount == 200) {
-                        gameSpeed--;
-                        gameSpeedCount = 0;
+                        if (gameSpeedCount == 200) {
+                            gameSpeed--;
+                            gameSpeedCount = 0;
+                        }
                     }
+
+                    stage.getStage().move(gameSpeed);
+
+                    for (GameObjects object : gameObjects) {
+                        object.getObject().move(gameSpeed);
+                    }
+
+                    player.move();
                 }
-
-                stage.getStage().move(gameSpeed);
-
-                for (GameObjects object : gameObjects) {
-                    object.getObject().move(gameSpeed);
-                }
-
-                player.move();
             }
         }
 
@@ -221,7 +227,7 @@ public class Game implements KeyboardHandler {
         }
 
 
-        menuScreen = new Picture[5];
+        menuScreen = new Picture[6];
 
         for (int i = 0; i < menuScreen.length; i++) {
             menuScreen[i] = new Picture(10, 10, "/menu/menu_" + i + ".png");
@@ -329,6 +335,11 @@ public class Game implements KeyboardHandler {
                 case INSTRUCTIONS:
                     x = 1;
                     highlightMenuChoice(x);
+
+                    if (menuChoice) {
+                        x = 5;
+                        highlightMenuChoice(x);
+                    }
 
 
                     break;
