@@ -21,11 +21,9 @@ public class SimpleGfxObstacle1 extends SimpleGfxGameObjects {
 //        sprite.setColor(Color.WHITE);
 //        sprite.fill();
         pic = new Picture(startX, startY-12, "obstacles/tubo1_360.png");
-
-
         startPos = startX;
-
         speed = -5;
+
     }
 
     @Override
