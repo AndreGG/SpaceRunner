@@ -1,6 +1,7 @@
 package org.academiadecodigo.bootcamp.fila1game.SimpleGFX;
 
 import org.academiadecodigo.bootcamp.fila1game.CollisionChecker;
+import org.academiadecodigo.bootcamp.fila1game.NewAudio;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
@@ -287,17 +288,15 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private void jumpSoundsStream() throws IOException {
-        AudioPlayer.player.start(jumpSound);
 
-        jump = new FileInputStream("resources/Music/jump.wav");
-        jumpSound = new AudioStream(jump);
+        NewAudio.load(new String[]{"/Music/jump"});
+        NewAudio.start("/Music/jump");
+
     }
 
     private void touchSoundsStream() throws IOException {
-        AudioPlayer.player.start(touchSound);
-
-        touch = new FileInputStream("resources/Music/stand_obstacle.wav");
-        touchSound = new AudioStream(touch);
+        NewAudio.load(new String[]{"/Music/stand_obstacle"});
+        NewAudio.start("/Music/stand_obstacle");
     }
 
 
