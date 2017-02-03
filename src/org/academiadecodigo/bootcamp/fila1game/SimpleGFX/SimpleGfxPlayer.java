@@ -32,10 +32,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private boolean jumped = false;
     private boolean touched = false;
     private boolean playerDead;
-    private InputStream jump = new FileInputStream("resources/Music/jump.wav");
-    private AudioStream jumpSound = new AudioStream(jump);
-    private InputStream touch = new FileInputStream("resources/Music/stand_obstacle.wav");
-    private AudioStream touchSound = new AudioStream(touch);
+    
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
