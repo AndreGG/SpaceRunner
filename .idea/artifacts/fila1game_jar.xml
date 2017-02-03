@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="fila1game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/fila1game_jar</output-path>
+    <root id="archive" name="fila1game.jar">
+      <element id="module-output" name="fila1game" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/simplegraphics.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
