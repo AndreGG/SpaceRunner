@@ -209,7 +209,7 @@ public class Game implements KeyboardHandler {
          * Sound assets
          */
 
-        NewAudio.load(new String[]{"/Music/Fila1Theme"});
+        NewAudio.load(new String[]{"/Music/Fila1Theme", "/Music/jump", "/Music/stand_obstacle"});
 
         /**
          * Gfx assets and Collision Assignment

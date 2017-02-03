@@ -29,7 +29,7 @@ public class NewAudio {
 
                 if(soundURL == null){
                     // load sound from source code
-                    File file = new File("resources/"+soundName.toString()+ ".wav");
+                    File file = new File("resources/" + soundName.toString() + ".wav");
                     soundURL = file.toURI().toURL();
                 }
 

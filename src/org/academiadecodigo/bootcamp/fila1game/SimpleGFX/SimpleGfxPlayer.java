@@ -32,7 +32,7 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     private boolean jumped = false;
     private boolean touched = false;
     private boolean playerDead;
-    
+
 
     public SimpleGfxPlayer(int startX, int startY, CollisionChecker checker) throws IOException {
 
@@ -285,14 +285,13 @@ public class SimpleGfxPlayer extends SimpleGfxGameObjects implements KeyboardHan
     }
 
     private void jumpSoundsStream() throws IOException {
-
-        NewAudio.load(new String[]{"/Music/jump"});
+//        NewAudio.load(new String[]{"/Music/jump"});
         NewAudio.start("/Music/jump");
 
     }
 
     private void touchSoundsStream() throws IOException {
-        NewAudio.load(new String[]{"/Music/stand_obstacle"});
+//        NewAudio.load(new String[]{"/Music/stand_obstacle"});
         NewAudio.start("/Music/stand_obstacle");
     }
 
